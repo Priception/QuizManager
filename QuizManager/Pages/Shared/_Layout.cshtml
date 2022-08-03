@@ -8,11 +8,20 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QuizManager.styles.css" asp-append-version="true" />
 </head>
-<body>
+<style>
+table{
+    height: 100%;
+}
+th, td {
+  padding: 15px;
+  background-color: #0069ff;
+}
+</style>
+<body>    
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#00a2e8;">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">QuizManager</a>
+                <a class="navbar-brand" id="Logo" asp-area="" asp-page="/Index">QuizManager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,13 +39,35 @@
             </div>
         </nav>
     </header>
+
+    <table style="position: absolute; top: 0; bottom: 0; ">
+        <tr style="height: 10%; font-size: 36px;">
+            <th></th>
+        </tr>
+        <tr style="height: 20%; font-size: 36px;">
+            <th>Create</th>
+        </tr>
+        <tr style="height: 20%; font-size: 36px;">
+            <th>Join</th>
+        </tr>
+        <tr style="height: 20%; font-size: 36px;">
+            <th>Manage<br>Class</th>
+        </tr>
+        <tr style="height: 20%; font-size: 36px;">
+            <th>Settings</th>
+        </tr>
+        <tr style="height: 10%; font-size: 36px;">
+            <th></th>
+        </tr>
+    </table>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="background-color:#00a2e8">
         <div class="container">
             &copy; 2022 - QuizManager - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
