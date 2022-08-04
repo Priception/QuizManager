@@ -1,0 +1,85 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<style>
+.CommentBox{
+    width:60%;
+    height:40%;
+    border:5px solid #00a2e8;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    -ms-transform: translateY(-50%) translateX(50%);
+    transform: translateY(-50%) translateX(50%);
+    margin:0 auto;
+    background-color:#006a97;
+}
+.TextBox{
+    top: 50%;
+    right: 50%;
+    position: absolute;
+    -ms-transform: translateY(-50%) translateX(50%);
+    transform: translateY(-50%) translateX(50%);
+    font-size: 36px;
+    /*border:3px solid #000000;*/
+    width: 50%;
+}
+.Text{
+    right: 50%;
+    position: absolute;
+}
+
+.EnterText{
+    top: 42%;
+    right: 61%;
+    position: absolute;
+    -ms-transform: translateY(-50%) translateX(42%);
+    transform: translateY(-50%) translateX(42%);
+}
+.JoinButton{
+    top: 65%;
+    right: 48%;
+    position: absolute;
+    background-color:#0a8a06;
+    margin: 0 auto;
+    width: 10%;
+    height: 15%;
+    font-size: 33px;
+    line-height: 1.4;
+    text-align: center;
+    list-style-type: none;
+    list-style-position: outside;
+    text-decoration: none;
+}
+.JoinButton:hover{
+    background-color:#043b02!important;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+.text-under{
+    display:block;
+}
+</style>
+
+<body style="background-color:grey;">
+
+    <div class="CommentBox">
+        <div class="Text">
+            <b style="text-align:center; font-size:30px; color:black;">Join</b><br>
+        </div>
+        <div class="EnterText">
+            <p style="text-align:center; font-size:24px; color:black;">Please Enter 6 Digit Code:</p><br>
+        </div>
+        <div class="TextBox">
+            <input style="border-style:solid; border-color:black; border-width:3px;" type="text" id="jointxtbox" name="jointxtbox" ><br>
+        </div>
+        <div class="JoinButton">
+            <b class="text-under">Join</b>
+        </div>
+    </div>
+    
+
+</body>
+

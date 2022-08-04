@@ -14,7 +14,22 @@ table{
 }
 th, td {
   padding: 15px;
-  background-color: #006a97;
+}
+th:hover, td:hover{
+  padding: 15px;
+}
+.NavButton {
+  background-color:#006a97;
+}
+.NavButton:hover {
+  background-color:#003e59!important;
+}
+.Empty {
+  background-color:#006a97;
+}
+.hide {
+  visibility: hidden;
+  border: none;
 }
 </style>
 <body>    
@@ -41,22 +56,22 @@ th, td {
     </header>
 
     <table style="position: absolute; top: 0; bottom: 0; ">
-        <tr style="height: 10%; font-size: 36px; color:black;">
+        <tr class="hide" style="height: 5%; font-size: 36px; color:black;">
             <th></th>
         </tr>
-        <tr style="height: 20%; font-size: 36px; color:black;">
+        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
             <th>Create</th>
         </tr>
-        <tr style="height: 20%; font-size: 36px; color:black;">
+        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
             <th>Join</th>
         </tr>
-        <tr style="height: 20%; font-size: 36px; color:black;">
+        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
             <th>Manage<br>Class</th>
         </tr>
-        <tr style="height: 20%; font-size: 36px; color:black;">
+        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
             <th>Settings</th>
         </tr>
-        <tr style="height: 10%; font-size: 36px; color:black;">
+        <tr class="Empty" style="height: 10%; font-size: 36px; color:black;">
             <th></th>
         </tr>
     </table>
