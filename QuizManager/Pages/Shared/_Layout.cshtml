@@ -19,17 +19,31 @@ th:hover, td:hover{
   padding: 15px;
 }
 .NavButton {
-  background-color:#006a97;
+    width: 120%;
+    background-color:#006a97;
 }
 .NavButton:hover {
   background-color:#003e59!important;
 }
 .Empty {
-  background-color:#006a97;
+    width: 120%;
+    background-color:#006a97;
 }
 .hide {
   visibility: hidden;
   border: none;
+}
+.text {
+    padding: 40%;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+}
+.textdouble {
+    padding: 25%;
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
 }
 </style>
 <body>    
@@ -55,16 +69,19 @@ th:hover, td:hover{
         </nav>
     </header>
 
-    <table style="position: absolute; top: 0; bottom: 0; ">
+    @*<table style="position: absolute; top: 0; bottom: 0; ">
         <tr class="hide" style="height: 5%; font-size: 36px; color:black;">
             <th></th>
         </tr>
         <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <th>Create</th>
+            <a href="/CreateQuiz.cshtml"></a>
+            <th>Create</th>       
         </tr>
-        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <th>Join</th>
-        </tr>
+        <a asp-page="/Privacy">
+            <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+                <th>Join</th>
+            </tr>
+        </a>
         <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
             <th>Manage<br>Class</th>
         </tr>
@@ -74,7 +91,32 @@ th:hover, td:hover{
         <tr class="Empty" style="height: 10%; font-size: 36px; color:black;">
             <th></th>
         </tr>
-    </table>
+    </table>*@
+
+    <div style="position: absolute; top: 0; bottom: 0; ">
+        <div class="hide" style="height: 5%; font-size: 36px; color:black;">
+            <div></div>
+        </div>
+        <a asp-page="/CreateQuiz">
+            <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+                <div class="text">Create</div>
+            </div>
+        </a>
+        <a asp-page="/Index">
+            <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+                <div class="text">Join</div>
+            </div>
+        </a>
+        <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+            <div class="textdouble">Manage<br>Class</div>
+        </div>
+        <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+            <div class="text">Settings</div>
+        </div>
+        <div class="Empty" style="height: 10%; font-size: 36px; color:black;">
+            <div></div>
+        </div>
+    </div>
 
     <div class="container">
         <main role="main" class="pb-3">
