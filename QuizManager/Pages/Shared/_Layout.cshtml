@@ -38,12 +38,18 @@ th:hover, td:hover{
     justify-content: center;
     display: flex;
     font-weight: bold;
+    font-size: 2vw;
 }
 .textdouble {
     padding: 25%;
     justify-content: center;
     display: flex;
     font-weight: bold;
+    font-size: 2vw;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
 }
 </style>
 <body>    
@@ -55,43 +61,9 @@ th:hover, td:hover{
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>
-
-    @*<table style="position: absolute; top: 0; bottom: 0; ">
-        <tr class="hide" style="height: 5%; font-size: 36px; color:black;">
-            <th></th>
-        </tr>
-        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <a href="/CreateQuiz.cshtml"></a>
-            <th>Create</th>       
-        </tr>
-        <a asp-page="/Privacy">
-            <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-                <th>Join</th>
-            </tr>
-        </a>
-        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <th>Manage<br>Class</th>
-        </tr>
-        <tr class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <th>Settings</th>
-        </tr>
-        <tr class="Empty" style="height: 10%; font-size: 36px; color:black;">
-            <th></th>
-        </tr>
-    </table>*@
 
     <div style="position: absolute; top: 0; bottom: 0; ">
         <div class="hide" style="height: 5%; font-size: 36px; color:black;">
@@ -107,12 +79,16 @@ th:hover, td:hover{
                 <div class="text">Join</div>
             </div>
         </a>
-        <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <div class="textdouble">Manage<br>Class</div>
-        </div>
-        <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-            <div class="text">Settings</div>
-        </div>
+        <a asp-page="/ManageClass">
+            <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+                <div class="textdouble">Manage<br>Class</div>
+            </div>
+        </a>
+        <a asp-page="/Settings">
+            <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
+                <div class="text">Settings</div>
+            </div>
+        </a>
         <div class="Empty" style="height: 10%; font-size: 36px; color:black;">
             <div></div>
         </div>

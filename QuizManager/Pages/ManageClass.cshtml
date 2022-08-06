@@ -1,16 +1,15 @@
 ﻿@page
-@model IndexModel
+@model QuizManager.Pages.ManageClassModel
 @{
-    ViewData["Title"] = "Home page";
 }
 <style>
 .CommentBox{
-    width:60%;
-    height:40%;
+    width:80%;
+    height:80%;
     border:5px solid #00a2e8;
     position: absolute;
-    top: 50%;
-    right: 50%;
+    top: 52%;
+    right: 45%;
     -ms-transform: translateY(-50%) translateX(50%);
     transform: translateY(-50%) translateX(50%);
     margin:0 auto;
@@ -27,7 +26,7 @@
     width: 50%;
 }
 .Text{
-    right: 50%;
+    right: 45%;
     position: absolute;
     font-size: 2vw;
 }
@@ -72,19 +71,9 @@
 
     <div class="CommentBox">
         <div class="Text">
-            <b style="text-align:center; font-size:30px; color:black;">Join</b><br>
-        </div>
-        <div class="EnterText">
-            <div class="Text2" style="color:black;">Please Enter 6 Digit Code:</div>
-        </div>
-        <div class="TextBox">
-            <input style="border-style:solid; border-color:black; border-width:3px;" type="text" id="jointxtbox" name="jointxtbox" ><br>
-        </div>
-        <div class="JoinButton">
-            <b class="text-under" style="color:black;">Join</b>
+            <b style="text-align:center; font-size:30px; color:black;">Manage Class</b><br>
         </div>
     </div>
     
 
 </body>
-
