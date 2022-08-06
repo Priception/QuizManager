@@ -26,13 +26,10 @@
     width: 50%;
 }
 .Text{
-    right: 50%;
     position: absolute;
     font-size: 2vw;
 }
 .Text2{
-    right: 70%;
-    top: 25%;
     font-size: 1.2vw;
 }
 
@@ -67,17 +64,67 @@
     display:block;
     font-size: 1.8vw;  
 }
+img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.imagelogo{
+    top: 35%;
+    right: 13%;
+    position: absolute;
+    -ms-transform: translateY(-50%) translateX(42%);
+    transform: translateY(-50%) translateX(42%);
+    height: 150px;
+    width: 350px;
+    font-size: 1vw;
+}
+.browsebutton{
+    top: 50%;
+    right: 21%;
+    position: absolute;
+    -ms-transform: translateY(-50%) translateX(42%);
+    transform: translateY(-50%) translateX(42%);
+    font-size: 1vw;
+}
+.colourbox{
+    width:8%;
+    height:7%;
+    border:5px solid black;
+    position: absolute;
+    -ms-transform: translateY(-50%) translateX(50%);
+    transform: translateY(-50%) translateX(50%);
+    margin:0 auto;
+}
+.colourboxtext{
+     position: absolute;
+     -ms-transform: translateY(-50%) translateX(42%);
+     transform: translateY(-50%) translateX(42%);
+     font-size: 1.5vw;
+}
 </style>
 
 <body style="background-color:grey;">
 
     <div class="CommentBox">
-        <div class="Text">
+        <div class="Text" style="right: 50%;">
             <b style="text-align:center; font-size:30px; color:black;">Settings</b>
         </div>
         <div class="EnterText">
-            <div class="Text2" style="color:black;">Company Logo:</div>
+            <div class="Text2" style="color:black; right:70%; top:25%;">Company Logo:</div>
         </div>
+        <div class="imagelogo">
+            <img src="~/images/logo.png"/>  
+        </div>
+        <div class="browsebutton">
+            <button>Browse...</button>
+        </div>
+        <div class="colourbox" style="top:30%; right:90%; background-color:#00a2e8;"></div>
+        <div class="colourboxtext" style="color:black; top:30%; right:78%;">Primary Colour</div>
+        <div class="colourbox" style="top:45%; right:90%; background-color:#006a97;"></div>
+        <div class="colourboxtext" style="color:black; top:45%; right:77%;">Secondary Colour</div>
+        <div class="colourbox" style="top:60%; right:90%; background-color:grey;"></div>
+        <div class="colourboxtext" style="color:black; top:60%; right:78%;">Tertiary Colour</div>
     </div>
     
 
