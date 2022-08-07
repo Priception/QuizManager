@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@model QuizManager.Pages.IndexModel
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,14 +21,15 @@ th:hover, td:hover{
 }
 .NavButton {
     width: 120%;
-    background-color:#006a97;
+    background-color:@Model.GetColours(1);
 }
 .NavButton:hover {
-  background-color:#003e59!important;
+  background-color:@Model.GetColours(1)!important;
+  filter: brightness(60%);
 }
 .Empty {
     width: 120%;
-    background-color:#006a97;
+    background-color:@Model.GetColours(1);
 }
 .hide {
   visibility: hidden;
@@ -54,7 +56,7 @@ a {
 </style>
 <body>    
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#00a2e8;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:@Model.GetColours(0);">
             <div class="container">
                 <a class="navbar-brand" id="Logo" asp-area="" asp-page="/Index">QuizManager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -100,7 +102,7 @@ a {
         </main>
     </div>
 
-    <footer class="border-top footer text-muted" style="background-color:#00a2e8">
+    <footer class="border-top footer text-muted" style="background-color:@Model.GetColours(0)">
         <div class="container">
             &copy; 2022 - QuizManager - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>

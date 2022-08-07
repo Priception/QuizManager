@@ -84,30 +84,30 @@
 .createQuizBox{
     width:20%;
     height:30%;
-    border:5px solid #00a2e8;
+    border:5px solid @Model.GetColours(0);
     position: fixed;
     top: 25%;
     right: 75%;
     -ms-transform: translateY(-50%) translateX(50%);
     transform: translateY(-50%) translateX(50%);
     margin:0 auto;
-    background-color:#006a97;
+    background-color:@Model.GetColours(1);
 }
 .recentQuizBox{
     width:20%;
     height:30%;
-    border:5px solid #00a2e8;
+    border:5px solid @Model.GetColours(0);
     position: fixed;
     top: 65%;
     right: 75%;
     -ms-transform: translateY(-50%) translateX(50%);
     transform: translateY(-50%) translateX(50%);
     margin:0 auto;
-    background-color:#006a97;
+    background-color:@Model.GetColours(1);
 }
 </style>
 
-<body style="background-color:grey;">
+<body style="background-color:@Model.GetColours(2);">
 
     <div class="createQuizBox">
         <div class="Text" style="color:black;">Recent</div>

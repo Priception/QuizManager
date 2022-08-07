@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
 using System.Text;
 
-namespace QuizManager.Pages
+namespace QuizManager.Pages.Shared
 {
-    public class SettingsModel : PageModel
+    public class _Layout : PageModel
     {
         public void OnGet()
         {

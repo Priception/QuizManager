@@ -15,5 +15,10 @@ namespace QuizManager.Pages
         public void OnGet()
         {
         }
+        public string GetColours(int colour)
+        {
+            FileHandler filehandler = new FileHandler();
+            return filehandler.ReadFromColoursFile(colour);
+        }
     }
 }

@@ -7,14 +7,14 @@
 .CommentBox{
     width:60%;
     height:40%;
-    border:5px solid #00a2e8;
+    border:5px solid @Model.GetColours(0);
     position: absolute;
     top: 50%;
     right: 50%;
     -ms-transform: translateY(-50%) translateX(50%);
     transform: translateY(-50%) translateX(50%);
     margin:0 auto;
-    background-color:#006a97;
+    background-color:@Model.GetColours(1);
 }
 .TextBox{
     top: 50%;
@@ -68,7 +68,7 @@
 }
 </style>
 
-<body style="background-color:grey;">
+<body style="background-color:@Model.GetColours(2);">
 
     <div class="CommentBox">
         <div class="Text">
