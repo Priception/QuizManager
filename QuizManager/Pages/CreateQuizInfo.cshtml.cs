@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace QuizManager.Pages
 {
-    public class ManageClassModel : PageModel
+    public class CreateQuizInfoModel : PageModel
     {
         public void OnGet()
         {
         }
+
+        
     }
 }

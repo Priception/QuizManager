@@ -1,5 +1,6 @@
 using QuizManager;
 using QuizManager.Pages;
+using QuizManager.Scripts.DatabaseScripts;
 using TestingFramework.Wrapper;
 
 namespace QuizManagerTests
@@ -39,5 +40,41 @@ namespace QuizManagerTests
             string test3 = filehandler.ReadFromColoursFile(2, path);
             Assert.IsNotEmpty(test3);
         }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void DatabaseAccessTest()
+        {
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> check = accessDatabase.DatabaseTest();
+            Assert.IsNotNull(check);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void ReadJoinCodeFromDatabase()
+        {
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<int> check = accessDatabase.ReadJoinNumbersFromQuizInfo();
+            Assert.IsNotNull(check);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void AddNewQuizInfoTest()
+        {
+            string name = string.Concat("TestName",DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            if (check == 0)
+            {
+                Assert.Fail();
+            }
+        }
+
+
     }
 }

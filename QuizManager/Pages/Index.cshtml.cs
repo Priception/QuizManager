@@ -5,12 +5,6 @@ namespace QuizManager.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
 
         public void OnGet()
         {
@@ -20,6 +14,12 @@ namespace QuizManager.Pages
         {
             FileHandler filehandler = new FileHandler();
             return filehandler.ReadFromColoursFile(colour);
+        }
+
+        public object Action(string test)
+        {
+            return test;
+
         }
     }
 }
