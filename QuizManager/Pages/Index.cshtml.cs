@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using QuizManager.Scripts.DatabaseScripts;
 
 namespace QuizManager.Pages
 {
@@ -10,16 +11,22 @@ namespace QuizManager.Pages
         {
 
         }
+
         public string GetColours(int colour)
         {
             FileHandler filehandler = new FileHandler();
             return filehandler.ReadFromColoursFile(colour);
         }
 
-        public object Action(string test)
+        public void OnPost()
         {
-            return test;
+            string quizName = Request.Form["QuizName"];
+            string quizType = Request.Form["QuizType"];
 
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int joinValue = accessDatabase.AddNewQuizInfoToDatabase(quizName, quizType);
+
+            ViewData["confirmation"] = $"{quizName}, information will be sent to {quizType}";
         }
     }
 }
