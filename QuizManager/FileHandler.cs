@@ -29,6 +29,38 @@
 
         }
 
+        public bool WriteColoursToFile(string colour1, string colour2, string colour3, string testPath = null)
+        {
+            string path = "";
+            try
+            {
+                if (testPath == null)
+                {
+                    path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\colours.txt";
+                }
+                else
+                {
+                    path = testPath;
+                }
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+
+                FileHandler filehandler = new FileHandler();
+                filehandler.CreateFile(path);
+                string[] createText = { colour1, colour2, colour3 };  //Resets to Default Values
+                filehandler.Writelines(path, createText);
+                return true;
+            } 
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
         public string Readlines(string path, int colour)
         {
             string[] readText = File.ReadAllLines(path);

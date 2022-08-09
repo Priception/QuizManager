@@ -42,6 +42,20 @@ namespace QuizManagerTests
         }
 
         [Test]
+        [Category("Backend")]
+        public void WriteColourDetailsToFile()
+        {
+            string path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName + "\\QuizManager\\Config\\colours.txt";
+            FileHandler filehandler = new FileHandler();
+            string colour1 = "#00a2e8";
+            string colour2 = "#006a97";
+            string colour3 = "#7f7f7f";
+
+            bool ispassed = filehandler.WriteColoursToFile(colour1, colour2, colour3, path);
+            Assert.IsTrue(ispassed);
+        }
+
+        [Test]
         [Parallelizable]
         [Category("Backend")]
         public void DatabaseAccessTest()

@@ -18,7 +18,7 @@ namespace QuizManager.Pages
             return filehandler.ReadFromColoursFile(colour);
         }
 
-        public void OnPost()
+        public IActionResult OnPostQuizInfo()
         {
             string quizName = Request.Form["QuizName"];
             string quizType = Request.Form["QuizType"];
@@ -26,7 +26,19 @@ namespace QuizManager.Pages
             AccessDatabase accessDatabase = new AccessDatabase();
             int joinValue = accessDatabase.AddNewQuizInfoToDatabase(quizName, quizType);
 
-            ViewData["confirmation"] = $"{quizName}, information will be sent to {quizType}";
+            return RedirectToPage("CreateQuizQuestions");
         }
+        public IActionResult OnPostColourChange()
+        {
+            string colour1 = Request.Form["colour1"];
+            string colour2 = Request.Form["colour2"];
+            string colour3 = Request.Form["colour3"];
+
+            FileHandler filehandler = new FileHandler();
+            filehandler.WriteColoursToFile(colour1, colour2, colour3);
+
+            return RedirectToPage("Settings");
+        }
+
     }
 }

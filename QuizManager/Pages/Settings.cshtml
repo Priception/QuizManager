@@ -41,14 +41,14 @@
     transform: translateY(-50%) translateX(42%);
 }
 .JoinButton{
-    top: 65%;
-    right: 48%;
+    top: 75%;
+    right: 82%;
     position: absolute;
     background-color:#0a8a06;
     margin: 0 auto;
-    width: 10%;
-    height: 15%;
-    font-size: 33px;
+    width: 8%;
+    height: 6%;
+    font-size: 11px;
     line-height: 1.4;
     text-align: center;
     list-style-type: none;
@@ -62,7 +62,7 @@
 }
 .text-under{
     display:block;
-    font-size: 1.8vw;  
+    font-size: 1vw;  
 }
 img {
     max-width: 100%;
@@ -119,12 +119,17 @@ img {
         <div class="browsebutton">
             <button>Browse...</button>
         </div>
-        <div class="colourbox" style="top:30%; right:90%; background-color:@Model.GetColours(0);"></div>
-        <div class="colourboxtext" style="color:black; top:30%; right:78%;">Primary Colour</div>
-        <div class="colourbox" style="top:45%; right:90%; background-color:@Model.GetColours(1);"></div>
-        <div class="colourboxtext" style="color:black; top:45%; right:77%;">Secondary Colour</div>
-        <div class="colourbox" style="top:60%; right:90%; background-color:@Model.GetColours(2);"></div>
-        <div class="colourboxtext" style="color:black; top:60%; right:78%;">Tertiary Colour</div>
+        <form class="form-horizontal" method="post">
+            <input type="color" class="colourbox" name="colour1" value="@Model.GetColours(0)" style="top:30%; right:92%;"></input>
+            <div class="colourboxtext" style="color:black; top:30%; right:79%;">Primary Colour</div>
+            <input type="color" class="colourbox" name="colour2" value="@Model.GetColours(1)" style="top:45%; right:92%;"></input>
+            <div class="colourboxtext" style="color:black; top:45%; right:78%;">Secondary Colour</div>
+            <input type="color" class="colourbox" name="colour3" value="@Model.GetColours(2)" style="top:60%; right:92%;"></input>
+            <div class="colourboxtext" style="color:black; top:60%; right:79%;">Tertiary Colour</div>
+            <button type="Create" asp-page-handler="ColourChange" class="JoinButton text-under">Apply</button>
+        </form>
+
+        
     </div>
     
 
