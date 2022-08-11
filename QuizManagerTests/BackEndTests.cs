@@ -89,6 +89,52 @@ namespace QuizManagerTests
             }
         }
 
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void AddNewQuizTableTest()
+        {
+            string name = string.Concat("TestName", DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            string check2 = accessDatabase.CreateNewQuestionTable(check);
+            Assert.IsNotNull(check2);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void UpdateCurrentQuizDatabase()
+        {
+            string name = string.Concat("TestName", DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            string number = check.ToString();
+            name = name.Replace(":", "");
+            name = name.Replace(" ", "");
+            name = name.Replace("/", "");
+            bool check2 = accessDatabase.WriteToCurrentQuiz(name, number);
+            Assert.IsTrue(check2); 
+            check2 = accessDatabase.WriteToCurrentQuiz("", "");
+            Assert.IsTrue(check2);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void UpdateCurrentQuizQuestion()
+        {
+            string name = string.Concat("TestName", DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            string check2 = accessDatabase.CreateNewQuestionTable(check);
+            Assert.IsNotNull(check2);
+            bool check3 = accessDatabase.UpdateCurrentQuizQuestionTable(check, 1, 1, "Something interesting", "Hello", "There", "General", "Kenobi");
+            Assert.IsTrue(check3);
+        }
+
 
     }
 }
+//(int joinValue, int questionNum, int answer, string quesDescription,
+//                                                    string answerdes1, string answerdes2, string answerdes3, string answerdes4)
