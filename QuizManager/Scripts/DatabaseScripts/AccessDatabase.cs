@@ -145,10 +145,10 @@ namespace QuizManager.Scripts.DatabaseScripts
 
         }
 
-        public bool WriteToCurrentQuiz(string quizName, string quizNumber)
+        public bool WriteToCurrentQuiz(string quizName, string quizNumber, int currentQuestion, int maxQuestions)
         {
             string strSQL = "UPDATE CurrentQuiz";
-            string updateColumns = string.Concat(" SET QuizName = '", quizName, "', QuizNumber = '", quizNumber, "' WHERE ID = 1");
+            string updateColumns = string.Concat(" SET QuizName = '", quizName, "', QuizNumber = '", quizNumber, "', CurrentQuestion = '", currentQuestion, "', MaxQuestions = '", maxQuestions, "' WHERE ID = 1");
             strSQL = string.Concat(strSQL, updateColumns);
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -189,6 +189,8 @@ namespace QuizManager.Scripts.DatabaseScripts
                         {
                             resourceNames.Add(String.Concat(reader["QuizName"].ToString()));
                             resourceNames.Add(String.Concat(reader["QuizNumber"].ToString()));
+                            resourceNames.Add(String.Concat(reader["CurrentQuestion"].ToString()));
+                            resourceNames.Add(String.Concat(reader["MaxQuestions"].ToString()));
                         }
                     }
                     connection.Close();
@@ -233,11 +235,10 @@ namespace QuizManager.Scripts.DatabaseScripts
 
         }
 
-        public bool CheckSQLIDExists(string joinValue, int questionNum) //WIP
+        public List<string> ReadCurrentQuizQuestionTable(int joinValue, int questionNum)
         {
-            string strSQL = string.Concat("SELECT QuestionNum FROM ", joinValue , " WHERE QuestionNum = '", questionNum, "'");
+            string strSQL = string.Concat("SELECT * FROM ", joinValue, " WHERE QuestionNum = ", questionNum);
             List<string> resourceNames = new List<string>();
-            // Create a connection    
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 OleDbCommand command = new OleDbCommand(strSQL, connection);
@@ -250,15 +251,18 @@ namespace QuizManager.Scripts.DatabaseScripts
                     {
                         while (reader.Read())
                         {
-                            resourceNames.Add(String.Concat(reader["QuestionNum"].ToString()));
-                            
+                            resourceNames.Add(String.Concat(reader["QuestionNum"].ToString()));       //0
+                            resourceNames.Add(String.Concat(reader["Answer"].ToString()));            //1
+                            resourceNames.Add(String.Concat(reader["QuesDescription"].ToString()));   //2
+                            resourceNames.Add(String.Concat(reader["QuesAnswer1"].ToString()));       //3
+                            resourceNames.Add(String.Concat(reader["QuesAnswer2"].ToString()));       //4
+                            resourceNames.Add(String.Concat(reader["QuesAnswer3"].ToString()));       //5
+                            resourceNames.Add(String.Concat(reader["QuesAnswer4"].ToString()));       //6
                         }
                     }
                     connection.Close();
 
-
-
-                    return true;
+                    return resourceNames;
                 }
                 catch (Exception e)
                 {
@@ -267,6 +271,7 @@ namespace QuizManager.Scripts.DatabaseScripts
                 }
 
             }
+
         }
     } 
         

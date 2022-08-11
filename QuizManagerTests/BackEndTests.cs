@@ -113,9 +113,9 @@ namespace QuizManagerTests
             name = name.Replace(":", "");
             name = name.Replace(" ", "");
             name = name.Replace("/", "");
-            bool check2 = accessDatabase.WriteToCurrentQuiz(name, number);
+            bool check2 = accessDatabase.WriteToCurrentQuiz(name, number, 1, 1);
             Assert.IsTrue(check2); 
-            check2 = accessDatabase.WriteToCurrentQuiz("", "");
+            check2 = accessDatabase.WriteToCurrentQuiz("", "", 0, 0);
             Assert.IsTrue(check2);
         }
 

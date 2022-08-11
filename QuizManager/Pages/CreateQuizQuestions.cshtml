@@ -164,32 +164,32 @@
             <form class="form-horizontal" method="post">
                 <div class="CommentBox">
                     <div class="Text">
-                        <b style="text-align:center; font-size:30px; color:black;">@Model.GetCurrentQuizName()</b>
+                        <b style="text-align:center; font-size:30px; color:black;">@Model.GetCurrentQuizQuestion()</b>
                     </div>
                     <div class="form-group">
                         <div class="TextBoxQuestion" >
-                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer1" name="QuizAnswer1" >
+                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer1" name="QuizQuestion" value="@Model.GetCurrentQuizAnswerQuestion(2)" >
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="TextBox" >
-                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer1" name="QuizAnswer1" >
+                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer1" name="QuizAnswer1" value="@Model.GetCurrentQuizAnswerQuestion(3)" >
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="TextBox2" >
-                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer2" name="QuizAnswer2" >
+                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer2" name="QuizAnswer2" value="@Model.GetCurrentQuizAnswerQuestion(4)" >
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="TextBox3" >
-                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer3" name="QuizAnswer3" >
+                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer3" name="QuizAnswer3" value="@Model.GetCurrentQuizAnswerQuestion(5)" >
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="TextBox4" >
-                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer4" name="QuizAnswer4" >
+                            <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizAnswer4" name="QuizAnswer4" value="@Model.GetCurrentQuizAnswerQuestion(6)" >
                         </div>
                     </div>
                     <div class="Text2">
@@ -208,16 +208,16 @@
                         <b style="color:black; top: 62%; right: 30%; position: absolute;">Answer 4:</b>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="answer1pick" name="answer1pick" style="top:48.5%; right:90%; position: absolute; width:3%; height:3%;">
+                        <input type="radio" id="answer1pick" name="answerpick" value="1" checked="@Model.GetCurrentQuizRadioButton(1)" style="top:48.5%; right:90%; position: absolute; width:3%; height:3%;">
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="answer2pick" name="answer2pick" style="top:48.5%; right:40%; position: absolute; width:3%; height:3%;">
+                        <input type="radio" id="answer2pick" name="answerpick" value="2" checked="@Model.GetCurrentQuizRadioButton(2)" style="top:48.5%; right:40%; position: absolute; width:3%; height:3%;">
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="answer3pick" name="answer3pick" style="top:68.5%; right:90%; position: absolute; width:3%; height:3%;">
+                        <input type="radio" id="answer3pick" name="answerpick" value="3" checked="@Model.GetCurrentQuizRadioButton(3)" style="top:68.5%; right:90%; position: absolute; width:3%; height:3%;">
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="answer4pick" name="answer4pick" style="top:68.5%; right:40%; position: absolute; width:3%; height:3%;">
+                        <input type="radio" id="answer4pick" name="answerpick" value="4" checked="@Model.GetCurrentQuizRadioButton(4)" style="top:68.5%; right:40%; position: absolute; width:3%; height:3%;">
                     </div>
                     <button type="Create" asp-page-handler="CreateQuizInfoSave" class="JoinButton text-under">Save</button>
                     <button type="Create" asp-page-handler="CreateQuizInfoDelete" class="DeleteButton text-under">Delete</button>
