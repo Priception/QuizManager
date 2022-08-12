@@ -30,8 +30,8 @@ namespace QuizManager.Pages
 
         public IActionResult OnPostQuizInfo()
         {
-            string quizName = Request.Form["QuizName"];
-            string quizType = Request.Form["QuizType"];            
+            string quizName = InvalidCharCheck(Request.Form["QuizName"]);
+            string quizType = InvalidCharCheck(Request.Form["QuizType"]);            
 
             AccessDatabase accessDatabase = new AccessDatabase();
             int joinValue = accessDatabase.AddNewQuizInfoToDatabase(quizName, quizType);
@@ -102,10 +102,10 @@ namespace QuizManager.Pages
             {
                 AccessDatabase accessDatabase = new AccessDatabase();
                 List<string> currentQuiz = accessDatabase.ReadCurrentQuizInfo();
-                _QuizName = currentQuiz[0].ToString();
-                _QuizNumber = currentQuiz[1].ToString();
-                _currentQuestion = currentQuiz[2].ToString();
-                _maxQuestions = currentQuiz[3].ToString();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
 
                 return _QuizName;
             }
@@ -121,10 +121,10 @@ namespace QuizManager.Pages
             {
                 AccessDatabase accessDatabase = new AccessDatabase();
                 List<string> currentQuiz = accessDatabase.ReadCurrentQuizInfo();
-                _QuizName = currentQuiz[0].ToString();
-                _QuizNumber = currentQuiz[1].ToString();
-                _currentQuestion = currentQuiz[2].ToString();
-                _maxQuestions = currentQuiz[3].ToString();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
 
                 return _QuizNumber;
             }
@@ -140,10 +140,10 @@ namespace QuizManager.Pages
             {
                 AccessDatabase accessDatabase = new AccessDatabase();
                 List<string> currentQuiz = accessDatabase.ReadCurrentQuizInfo();
-                _QuizName = currentQuiz[0].ToString();
-                _QuizNumber = currentQuiz[1].ToString();
-                _currentQuestion = currentQuiz[2].ToString();
-                _maxQuestions = currentQuiz[3].ToString();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
 
                 return _currentQuestion;
             }
