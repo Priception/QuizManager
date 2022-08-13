@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Data;
 using System.Data.OleDb;
 
 namespace QuizManager.Scripts.DatabaseScripts
@@ -14,7 +16,7 @@ namespace QuizManager.Scripts.DatabaseScripts
             List<string> resourceNames = new List<string>();
             // Create a connection    
             using (OleDbConnection connection = new OleDbConnection(connectionString))
-            { 
+            {
                 OleDbCommand command = new OleDbCommand(strSQL, connection);
                 try
                 {
@@ -42,7 +44,7 @@ namespace QuizManager.Scripts.DatabaseScripts
         public int AddNewQuizInfoToDatabase(string QuizName, string QuizSubject)
         {
             int joinValue = 0;
-            
+
             try
             {
                 Random random = new Random();
@@ -73,7 +75,7 @@ namespace QuizManager.Scripts.DatabaseScripts
             {
                 return 0;
             }
-            
+
         }
 
         public List<int> ReadJoinNumbersFromQuizInfo()
@@ -120,8 +122,8 @@ namespace QuizManager.Scripts.DatabaseScripts
 
                 string strSQL = string.Concat("CREATE TABLE ", joinName);
 
-                string createTable = string.Concat("(QuestionNum INT,Answer INT,QuesDescription VARCHAR(255),QuesAnswer1 VARCHAR(255),QuesAnswer2 VARCHAR(255),QuesAnswer3 VARCHAR(255),QuesAnswer4 VARCHAR(255))");
-                string populateTable = string.Concat(" (QuestionNum,Answer,QuesDescription,QuesAnswer1,QuesAnswer2,QuesAnswer3,QuesAnswer4) VALUES (1,0,'Description','Answer1','Answer2','Answer3','Answer4')");
+                string createTable = string.Concat("(ID INT,Answer INT,QuesDescription VARCHAR(255),QuesAnswer1 VARCHAR(255),QuesAnswer2 VARCHAR(255),QuesAnswer3 VARCHAR(255),QuesAnswer4 VARCHAR(255), QuestionNum INT)");
+                string populateTable = string.Concat("(ID,Answer,QuesDescription,QuesAnswer1,QuesAnswer2,QuesAnswer3,QuesAnswer4,QuestionNum) VALUES (1,0,'Description','Answer1','Answer2','Answer3','Answer4', 1)");
 
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
                 {
@@ -145,10 +147,10 @@ namespace QuizManager.Scripts.DatabaseScripts
 
         }
 
-        public bool WriteToCurrentQuiz(string quizName, string quizNumber, int currentQuestion, int maxQuestions)
+        public bool WriteToCurrentQuiz(string quizName, string quizNumber, int currentQuestion, int maxQuestions, int iDValue)
         {
             string strSQL = "UPDATE CurrentQuiz";
-            string updateColumns = string.Concat(" SET QuizName = '", quizName, "', QuizNumber = '", quizNumber, "', CurrentQuestion = '", currentQuestion, "', MaxQuestions = '", maxQuestions, "' WHERE ID = 1");
+            string updateColumns = string.Concat(" SET QuizName = '", quizName, "', QuizNumber = '", quizNumber, "', CurrentQuestion = '", currentQuestion, "', MaxQuestions = '", maxQuestions, "', IDValue = '", iDValue, "' WHERE ID = 1");
             strSQL = string.Concat(strSQL, updateColumns);
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -166,7 +168,7 @@ namespace QuizManager.Scripts.DatabaseScripts
                     connection.Close();
                     return false;
                 }
-                
+
             }
         }
 
@@ -191,11 +193,12 @@ namespace QuizManager.Scripts.DatabaseScripts
                             resourceNames.Add(String.Concat(reader["QuizNumber"].ToString()));
                             resourceNames.Add(String.Concat(reader["CurrentQuestion"].ToString()));
                             resourceNames.Add(String.Concat(reader["MaxQuestions"].ToString()));
+                            resourceNames.Add(String.Concat(reader["IDValue"].ToString()));
                         }
                     }
                     connection.Close();
 
-                    
+
 
                     return resourceNames;
                 }
@@ -204,7 +207,7 @@ namespace QuizManager.Scripts.DatabaseScripts
                     connection.Close();
                     return null;
                 }
-                
+
             }
         }
 
@@ -251,13 +254,14 @@ namespace QuizManager.Scripts.DatabaseScripts
                     {
                         while (reader.Read())
                         {
-                            resourceNames.Add(String.Concat(reader["QuestionNum"].ToString()));       //0
+                            resourceNames.Add(String.Concat(reader["ID"].ToString()));                //0
                             resourceNames.Add(String.Concat(reader["Answer"].ToString()));            //1
                             resourceNames.Add(String.Concat(reader["QuesDescription"].ToString()));   //2
                             resourceNames.Add(String.Concat(reader["QuesAnswer1"].ToString()));       //3
                             resourceNames.Add(String.Concat(reader["QuesAnswer2"].ToString()));       //4
                             resourceNames.Add(String.Concat(reader["QuesAnswer3"].ToString()));       //5
                             resourceNames.Add(String.Concat(reader["QuesAnswer4"].ToString()));       //6
+                            resourceNames.Add(String.Concat(reader["QuestionNum"].ToString()));       //7
                         }
                     }
                     connection.Close();
@@ -273,6 +277,113 @@ namespace QuizManager.Scripts.DatabaseScripts
             }
 
         }
+
+        public bool AddNewQuizQuestionToCurrentQuiz(int maxQuestions, string quizNumber, int idValue)
+        {
+            try
+            {
+
+                string strSQL = string.Concat("INSERT INTO ", quizNumber, " (ID,Answer,QuesDescription,QuesAnswer1,QuesAnswer2,QuesAnswer3,QuesAnswer4, QuestionNum) VALUES (", idValue, ",0,'Description','Answer1','Answer2','Answer3','Answer4',", maxQuestions, ")");
+
+                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+
+        public bool QuizQuestionDeleteRow(string quizNumber, int questionNum)
+        {
+            try
+            {
+
+                string strSQL = string.Concat("DELETE FROM ", quizNumber, " WHERE QuestionNum=", questionNum);
+
+                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public bool UpdateCurrentQuizQuestionNumber(string quizNumber, int questionNum, int idValue)
+        {
+            try
+            {
+                string strSQL = string.Concat("UPDATE ", quizNumber, " SET QuestionNum = ", questionNum, " WHERE ID=", idValue);
+
+                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public List<string> GetIDValueFromQuestionNumber(string joinValue)
+        {
+
+            string strSQL = string.Concat("SELECT * FROM ", joinValue, " ORDER BY ID");
+            List<string> items = new List<string>();
+
+            DataTable rstData = MyRst(strSQL);
+            //dataGridView1.DataSource = rstData;
+            List<string> MyIDList = new List<string>();
+            foreach (DataRow MyOneRow in rstData.Rows)
+            {
+                MyIDList.Add(MyOneRow["ID"].ToString());
+            }
+
+            return MyIDList;
+
+
+        }
+
+        DataTable MyRst(string strSQL)
+        {
+            DataTable rstData = new DataTable();
+            using (OleDbConnection conn = new OleDbConnection(connectionString))
+            {
+                using (OleDbCommand cmdSQL = new OleDbCommand(strSQL, conn))
+                {
+                    conn.Open();
+                    rstData.Load(cmdSQL.ExecuteReader());
+                }
+            }
+            return rstData;
+        }
+
+
+
+
+
     } 
         
 }

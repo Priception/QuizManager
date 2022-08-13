@@ -112,7 +112,27 @@
             text-decoration: none;
             color: #FFFFFF;
         }
-        .DeleteButton{
+        .SaveExitButton{
+            top: 85%;
+            right: 45%;
+            position: absolute;
+            background-color:#0a8a06;
+            margin: 0 auto;
+            width: 15%;
+            height: 8%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .SaveExitButton:hover{
+            background-color:#043b02!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .BackButton{
             top: 85%;
             right: 70%;
             position: absolute;
@@ -127,13 +147,13 @@
             list-style-position: outside;
             text-decoration: none;
         }
-        .DeleteButton:hover{
+        .BackButton:hover{
             background-color:#363533!important;
             text-decoration: none;
             color: #FFFFFF;
         }
         .AddButton{
-            top: 85%;
+            top: 80%;
             right: 40%;
             position: absolute;
             background-color:#7d7c7a;
@@ -152,6 +172,67 @@
             text-decoration: none;
             color: #FFFFFF;
         }
+        .DeleteButton{
+            top: 90%;
+            right: 40%;
+            position: absolute;
+            background-color:#ba0606;
+            margin: 0 auto;
+            width: 25%;
+            height: 10%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .DeleteButton:hover{
+            background-color:#690202!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .NextButton{
+            top: 80%;
+            right: 10%;
+            position: absolute;
+            background-color:#7d7c7a;
+            margin: 0 auto;
+            width: 25%;
+            height: 20%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .NextButton:hover{
+            background-color:#52504d!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .PrevButton{
+            top: 80%;
+            right: 70%;
+            position: absolute;
+            background-color:#7d7c7a;
+            margin: 0 auto;
+            width: 25%;
+            height: 20%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .PrevButton:hover{
+            background-color:#52504d!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
         .text-under{
             display:block;
             font-size: 1.4vw;  
@@ -220,13 +301,20 @@
                         <input type="radio" id="answer4pick" name="answerpick" value="4" checked="@Model.GetCurrentQuizRadioButton(4)" style="top:68.5%; right:40%; position: absolute; width:3%; height:3%;">
                     </div>
                     <button type="Create" asp-page-handler="CreateQuizInfoSave" class="JoinButton text-under">Save</button>
-                    <button type="Create" asp-page-handler="CreateQuizInfoDelete" class="DeleteButton text-under">Delete</button>
+                    <button type="Create" asp-page-handler="CreateQuizInfoBack" class="BackButton text-under">Back</button>
+                    <button type="Create" asp-page-handler="CreateQuizInfoSaveAndQuit" class="SaveExitButton text-under">Save & Exit</button>
                 </div>
                 <div class="CommentBox2">
                     <div class="Text2">
                         <b style="color:black; top: 1%; right: 32.5%; position: absolute;">Questions:</b>
                     </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 1%; right: 32.5%; position: absolute;">Questions:</b>
+                    </div>
                     <button type="Create" asp-page-handler="CreateQuizInfoAdd" class="AddButton text-under">Add</button>
+                    <button type="Create" asp-page-handler="CreateQuizInfoDelete" hidden="@Model.CreateQuizShouldShowDeleteButton()" class="DeleteButton text-under">Del</button>
+                    <button type="Create" asp-page-handler="CreateQuizInfoNext" hidden="@Model.CreateQuizShouldShowNextButton()" class="NextButton text-under">Next<br/>></button>
+                    <button type="Create" asp-page-handler="CreateQuizInfoPrev" hidden="@Model.CreateQuizShouldShowPrevButton()" class="PrevButton text-under">Prev<br/>&lt;</button>
                 </div>
             </form>
 

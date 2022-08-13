@@ -113,9 +113,9 @@ namespace QuizManagerTests
             name = name.Replace(":", "");
             name = name.Replace(" ", "");
             name = name.Replace("/", "");
-            bool check2 = accessDatabase.WriteToCurrentQuiz(name, number, 1, 1);
+            bool check2 = accessDatabase.WriteToCurrentQuiz(name, number, 1, 1, 1);
             Assert.IsTrue(check2); 
-            check2 = accessDatabase.WriteToCurrentQuiz("", "", 0, 0);
+            check2 = accessDatabase.WriteToCurrentQuiz("", "", 0, 0, 0);
             Assert.IsTrue(check2);
         }
 
@@ -133,8 +133,37 @@ namespace QuizManagerTests
             Assert.IsTrue(check3);
         }
 
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void AddNewQuizTableTestAndAddNewRow()
+        {
+            string name = string.Concat("TestName", DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            string check2 = accessDatabase.CreateNewQuestionTable(check);
+            Assert.IsNotNull(check2);
+            bool check3 = accessDatabase.AddNewQuizQuestionToCurrentQuiz(2, check.ToString(), 2);
+            Assert.IsTrue(check3);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void GetIDValueFromCurrentQuizTest()
+        {
+            string name = string.Concat("TestName", DateTime.Now.ToString());
+            AccessDatabase accessDatabase = new AccessDatabase();
+            int check = accessDatabase.AddNewQuizInfoToDatabase(name, "Maths");
+            string check2 = accessDatabase.CreateNewQuestionTable(check);
+            Assert.IsNotNull(check2);
+            List<string> check3 = accessDatabase.GetIDValueFromQuestionNumber("123456");
+            Assert.IsNotNull(check3);
+        }
 
     }
 }
 //(int joinValue, int questionNum, int answer, string quesDescription,
 //                                                    string answerdes1, string answerdes2, string answerdes3, string answerdes4)
+
+//
