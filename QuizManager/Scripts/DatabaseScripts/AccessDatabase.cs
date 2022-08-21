@@ -172,6 +172,31 @@ namespace QuizManager.Scripts.DatabaseScripts
             }
         }
 
+        public bool WriteToJoinQuiz(string quizName, string quizNumber, int currentQuestion, int maxQuestions, int iDValue, int questonsAnswered)
+        {
+            string strSQL = "UPDATE CurrentAnswers";
+            string updateColumns = string.Concat(" SET QuizName = '", quizName, "', QuizNumber = '", quizNumber, "', CurrentQuestion = '", currentQuestion, "', MaxQuestions = '", maxQuestions, "', IDValue = '", iDValue, "', QuestonsAnswered = '", questonsAnswered, "' WHERE ID = 1");
+            strSQL = string.Concat(strSQL, updateColumns);
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                try
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    connection.Close();
+                    return false;
+                }
+
+            }
+        }
+
         public List<string> ReadCurrentQuizInfo()
         {
             string strSQL = "SELECT * FROM CurrentQuiz";
@@ -194,6 +219,46 @@ namespace QuizManager.Scripts.DatabaseScripts
                             resourceNames.Add(String.Concat(reader["CurrentQuestion"].ToString()));
                             resourceNames.Add(String.Concat(reader["MaxQuestions"].ToString()));
                             resourceNames.Add(String.Concat(reader["IDValue"].ToString()));
+                        }
+                    }
+                    connection.Close();
+
+
+
+                    return resourceNames;
+                }
+                catch (Exception e)
+                {
+                    connection.Close();
+                    return null;
+                }
+
+            }
+        }
+
+        public List<string> ReadCurrentJoinQuizInfo()
+        {
+            string strSQL = "SELECT * FROM CurrentAnswers";
+            List<string> resourceNames = new List<string>();
+            // Create a connection    
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resourceNames.Add(String.Concat(reader["QuizName"].ToString()));
+                            resourceNames.Add(String.Concat(reader["QuizNumber"].ToString()));
+                            resourceNames.Add(String.Concat(reader["CurrentQuestion"].ToString()));
+                            resourceNames.Add(String.Concat(reader["MaxQuestions"].ToString()));
+                            resourceNames.Add(String.Concat(reader["IDValue"].ToString()));
+                            resourceNames.Add(String.Concat(reader["QuestonsAnswered"].ToString()));
                         }
                     }
                     connection.Close();
@@ -381,9 +446,100 @@ namespace QuizManager.Scripts.DatabaseScripts
         }
 
 
+        public List<string> GetJoinQuizInfo(string joinValue)
+        {
 
+            string strSQL = string.Concat("SELECT * FROM QuizInfo WHERE JoinCode = ", joinValue);
+            List<string> items = new List<string>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(String.Concat(reader["ID"].ToString()));                //0
+                            items.Add(String.Concat(reader["QuizName"].ToString()));          //1
+                            items.Add(String.Concat(reader["QuizSubject"].ToString()));       //2
+                            items.Add(String.Concat(reader["JoinCode"].ToString()));          //3
+                        }
+                    }
+                    connection.Close();
 
+                    return items;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
 
-    } 
-        
+            }
+        }
+
+        public List<string> GetJoinQuizTableInfo(string joinValue, int returnValue = 0)
+        {
+
+            string strSQL = string.Concat("SELECT * FROM ", joinValue);
+            List<string> resourceNames = new List<string>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            switch (returnValue)
+                            {
+                                case 0:
+                                    resourceNames.Add(String.Concat(reader["ID"].ToString()));                //0
+                                    break;
+                                case 1:
+                                    resourceNames.Add(String.Concat(reader["Answer"].ToString()));            //1
+                                    break;
+
+                                case 2:
+                                    resourceNames.Add(String.Concat(reader["QuesDescription"].ToString()));   //2
+                                    break;
+                                case 3:
+                                    resourceNames.Add(String.Concat(reader["QuesAnswer1"].ToString()));       //3
+                                    break;
+                                case 4:
+                                    resourceNames.Add(String.Concat(reader["QuesAnswer2"].ToString()));       //4
+                                    break;
+                                case 5:
+                                    resourceNames.Add(String.Concat(reader["QuesAnswer3"].ToString()));       //5
+                                    break;
+                                case 6:
+                                    resourceNames.Add(String.Concat(reader["QuesAnswer4"].ToString()));       //6
+                                    break;
+                                case 7:
+                                    resourceNames.Add(String.Concat(reader["QuestionNum"].ToString()));       //7
+                                    break;
+
+                            }
+                        }
+                    }
+                    connection.Close();
+
+                    return resourceNames;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+
+            }
+        }
+
+    }
 }

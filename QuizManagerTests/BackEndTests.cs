@@ -161,6 +161,20 @@ namespace QuizManagerTests
             Assert.IsNotNull(check3);
         }
 
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void UpdateJoinQuizDatabase()
+        {
+            string name = "Example";
+            string number = "123456";
+            AccessDatabase accessDatabase = new AccessDatabase();
+            bool check2 = accessDatabase.WriteToJoinQuiz(name, number, 1, 1, 1, 1);
+            Assert.IsTrue(check2);
+            check2 = accessDatabase.WriteToJoinQuiz("", "", 0, 0, 0, 0);
+            Assert.IsTrue(check2);
+        }
+
     }
 }
 //(int joinValue, int questionNum, int answer, string quesDescription,

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using QuizManager.Scripts.DatabaseScripts;
+using System.IO;
 
 namespace QuizManager.Pages
 {
@@ -12,6 +13,7 @@ namespace QuizManager.Pages
         string _currentQuestion { get; set; }
         string _maxQuestions { get; set; }
         string _IDValue { get; set; }
+        string _QuestonsAnswered { get; set; }
 
 
         public void OnGet()
@@ -131,6 +133,16 @@ namespace QuizManager.Pages
         public IActionResult OnPostCreateQuizInfoBack()
         {
             return RedirectToPage("CreateQuiz");
+        }
+
+        public IActionResult OnPostAnswerQuizInfoBack()
+        {
+            return RedirectToPage("Index");
+        }
+
+        public IActionResult OnPostAnswerQuizInfoFinish()
+        {
+            return RedirectToPage("QuizResults");
         }
 
         public IActionResult OnPostCreateQuizInfoAdd()
@@ -292,6 +304,137 @@ namespace QuizManager.Pages
             return RedirectToPage("CreateQuizQuestions");
         }
 
+        public IActionResult OnPostJoinQuizInfoNext()
+        {
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_QuizName))
+            {
+                _QuizName = GetCurrentJoinQuizName();
+            }
+            if (string.IsNullOrEmpty(_IDValue))
+            {
+                _IDValue = GetCurrentJoinQuestionIDValue();
+            }
+            if (string.IsNullOrEmpty(_QuestonsAnswered))
+            {
+                _QuestonsAnswered = GetCurrentJoinQuestionQuestonsAnswered();
+            }
+            int currentQuestion = Int32.Parse(_currentQuestion);
+            int maxQuestions = Int32.Parse(_maxQuestions);
+            int idValue = Int32.Parse(_IDValue);
+            int questonsAnswered = Int32.Parse(_QuestonsAnswered);
+
+            currentQuestion = currentQuestion + 1;
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            accessDatabase.WriteToJoinQuiz(_QuizName, _QuizNumber, currentQuestion, maxQuestions, idValue, questonsAnswered);
+
+            _currentQuestion = currentQuestion.ToString();
+            return RedirectToPage("AnsweringQuizQuestions");
+        }
+
+        public IActionResult OnPostJoinQuizInfoPrev()
+        {
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_QuizName))
+            {
+                _QuizName = GetCurrentJoinQuizName();
+            }
+            if (string.IsNullOrEmpty(_IDValue))
+            {
+                _IDValue = GetCurrentJoinQuestionIDValue();
+            }
+            if (string.IsNullOrEmpty(_QuestonsAnswered))
+            {
+                _QuestonsAnswered = GetCurrentJoinQuestionQuestonsAnswered();
+            }
+            int currentQuestion = Int32.Parse(_currentQuestion);
+            int maxQuestions = Int32.Parse(_maxQuestions);
+            int idValue = Int32.Parse(_IDValue);
+            int questonsAnswered = Int32.Parse(_QuestonsAnswered);
+
+            currentQuestion = currentQuestion - 1;
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            accessDatabase.WriteToJoinQuiz(_QuizName, _QuizNumber, currentQuestion, maxQuestions, idValue, questonsAnswered);
+
+            _currentQuestion = currentQuestion.ToString();
+            return RedirectToPage("AnsweringQuizQuestions");
+        }
+
+        public IActionResult OnPostJoinQuizButton()
+        {
+            string joinNumber = InvalidCharCheck(Request.Form["joinNumber"].ToString());
+            if (string.IsNullOrEmpty(joinNumber))
+            {
+                return RedirectToPage("JoinPageError");
+            }
+            bool isIntString = joinNumber.All(char.IsDigit);
+
+            if (!isIntString)
+            {
+                return RedirectToPage("JoinPageError");
+            }
+
+            int intJoinNumber = Int32.Parse(joinNumber);
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<int> joinCodes = accessDatabase.ReadJoinNumbersFromQuizInfo();
+
+            for (int count = 0; count < joinCodes.Count; count++)
+            {
+                if (joinCodes[count] == intJoinNumber)
+                {
+                    List<string> info = accessDatabase.GetJoinQuizInfo(intJoinNumber.ToString());
+
+                    List<string> questions = accessDatabase.GetJoinQuizTableInfo(intJoinNumber.ToString(), 7); //Change so it returns one Table Column at a time.
+
+                    int maxQuestions = questions.Count;
+
+
+                    accessDatabase.WriteToJoinQuiz(info[1], info[3], 1, maxQuestions, maxQuestions, 0);
+                    // Set up information for test answering questions. 
+
+                    string path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\";
+                    path = string.Concat(path, "Answers", joinNumber, ".txt");
+
+                    FileHandler fileHandler = new FileHandler();
+                    if (fileHandler.DoesFileExist(path))
+                    {
+                        fileHandler.DeleteFile(path); 
+                    }
+
+                    fileHandler.WriteToAnsweredQuestionsFile(joinNumber, 1, 0, maxQuestions);
+
+
+                    return RedirectToPage("AnsweringQuizQuestions");
+                }
+            }
+
+            return RedirectToPage("JoinPageWrongCode"); // Change to error pagge
+        }
 
         public string GetCurrentQuizName()
         {
@@ -304,6 +447,27 @@ namespace QuizManager.Pages
                 _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
                 _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
                 _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+
+                return _QuizName;
+            }
+            else
+            {
+                return _QuizName;
+            }
+        }
+
+        public string GetCurrentJoinQuizName()
+        {
+            if (_QuizName == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentJoinQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
 
                 return _QuizName;
             }
@@ -353,6 +517,48 @@ namespace QuizManager.Pages
             }
         }
 
+        public string GetCurrentJoinQuestionNumber()
+        {
+            if (_QuizNumber == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentJoinQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
+
+                return _currentQuestion;
+            }
+            else
+            {
+                return _QuizNumber;
+            }
+        }
+
+        public string GetCurrentJoinQuizNumber()
+        {
+            if (_QuizNumber == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
+
+                return _QuizNumber;
+            }
+            else
+            {
+                return _QuizNumber;
+            }
+        }
+
         public string GetCurrentQuestionMaxQuestion()
         {
             if (_QuizNumber == null)
@@ -364,6 +570,27 @@ namespace QuizManager.Pages
                 _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
                 _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
                 _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+
+                return _maxQuestions;
+            }
+            else
+            {
+                return _maxQuestions;
+            }
+        }
+
+        public string GetCurrentJoinQuestionMaxQuestion()
+        {
+            if (_QuizNumber == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
 
                 return _maxQuestions;
             }
@@ -390,6 +617,48 @@ namespace QuizManager.Pages
             else
             {
                 return _maxQuestions;
+            }
+        }
+
+        public string GetCurrentJoinQuestionIDValue()
+        {
+            if (_QuizNumber == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentJoinQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
+
+                return _maxQuestions;
+            }
+            else
+            {
+                return _maxQuestions;
+            }
+        }
+
+        public string GetCurrentJoinQuestionQuestonsAnswered()
+        {
+            if (_QuizNumber == null)
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> currentQuiz = accessDatabase.ReadCurrentJoinQuizInfo();
+                _QuizName = InvalidCharCheck(currentQuiz[0].ToString());
+                _QuizNumber = InvalidCharCheck(currentQuiz[1].ToString());
+                _currentQuestion = InvalidCharCheck(currentQuiz[2].ToString());
+                _maxQuestions = InvalidCharCheck(currentQuiz[3].ToString());
+                _IDValue = InvalidCharCheck(currentQuiz[4].ToString());
+                _QuestonsAnswered = InvalidCharCheck(currentQuiz[5].ToString());
+
+                return _QuestonsAnswered;
+            }
+            else
+            {
+                return _QuestonsAnswered;
             }
         }
 
@@ -461,6 +730,46 @@ namespace QuizManager.Pages
             }
         }
 
+        public bool GetJoinQuizRadioButton(int number)
+        {
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentQuizNumber();
+            }
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_QuestonsAnswered))
+            {
+                _QuestonsAnswered = GetCurrentJoinQuestionQuestonsAnswered();
+            }
+            int currentQuestion = Int32.Parse(_currentQuestion);
+
+            string path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\";
+            path = string.Concat(path, "Answers", _QuizNumber, ".txt");
+
+            FileHandler fileHander = new FileHandler();
+            string[] quizAnswers = fileHander.ReadAllLines(path);
+
+            string value = quizAnswers[currentQuestion - 1];
+
+            int numvalue = Int32.Parse(value);
+
+            if (numvalue == number)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool CreateQuizShouldShowNextButton()
         {
             if (string.IsNullOrEmpty(_maxQuestions))
@@ -484,12 +793,54 @@ namespace QuizManager.Pages
             }
         }
 
+        public bool JoinQuizShouldShowNextButton()
+        {
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            int maxquestions = Int32.Parse(_maxQuestions);
+            int currentQuestion = Int32.Parse(_currentQuestion);
+
+            if (maxquestions == currentQuestion)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool CreateQuizShouldShowPrevButton()
         {
             
             if (string.IsNullOrEmpty(_currentQuestion))
             {
                 _currentQuestion = GetCurrentQuestionNumber();
+            }
+            int currentQuestion = Int32.Parse(_currentQuestion);
+
+            if (currentQuestion == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool JoinQuizShouldShowPrevButton()
+        {
+
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
             }
             int currentQuestion = Int32.Parse(_currentQuestion);
 
@@ -528,13 +879,177 @@ namespace QuizManager.Pages
 
         //}
 
+        
+        public IActionResult OnPostAnswerQuizInfoSave()
+        {
+            string radio = InvalidCharCheck(Request.Form["answerpick"].ToString());
+            if (string.IsNullOrEmpty(radio))
+            {
+                return RedirectToPage("AnsweringQuizQuestions"); //Add error page
+            }
+            int answer = Int32.Parse(radio);
+
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentJoinQuestionNumber();
+            }
+            int maxquestions = Int32.Parse(_maxQuestions);
+            int currentquestion = Int32.Parse(_currentQuestion);
+
+            FileHandler fileHandler = new FileHandler();
+            fileHandler.WriteToAnsweredQuestionsFile(_QuizNumber, currentquestion, answer, maxquestions); // finish setting up this
 
 
+            //Add function to read from text file and have it display on answering page
+
+            return RedirectToPage("AnsweringQuizQuestions");
+        }
+
+        public string GetCurrentJoinQuizQuestion()
+        {
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+
+            return string.Concat("Question: ", _currentQuestion);
+        }
 
 
+        public string GetJoinAnswerQuestion(int number)
+        {
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentJoinQuizNumber();
+            }
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            int quizNumber = Int32.Parse(_QuizNumber);
+            int currentQuestion = Int32.Parse(_currentQuestion);
 
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> currentQuiz = accessDatabase.ReadCurrentQuizQuestionTable(quizNumber, currentQuestion);
+            string description = currentQuiz[number];
 
+            return description;
+        }
 
+        public string JoinTotalAnsweredQuestions()
+        {
+            if (string.IsNullOrEmpty(_currentQuestion))
+            {
+                _currentQuestion = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentJoinQuestionNumber();
+            }
+            if (string.IsNullOrEmpty(_QuizName))
+            {
+                _QuizName = GetCurrentJoinQuizName();
+            }
+            if (string.IsNullOrEmpty(_IDValue))
+            {
+                _IDValue = GetCurrentJoinQuestionIDValue();
+            }
+            if (string.IsNullOrEmpty(_QuestonsAnswered))
+            {
+                _QuestonsAnswered = GetCurrentJoinQuestionQuestonsAnswered();
+            }
+            int currentQuestion = Int32.Parse(_currentQuestion);
+            int maxQuestions = Int32.Parse(_maxQuestions);
+            int idValue = Int32.Parse(_IDValue);
 
+            string path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\";
+            path = string.Concat(path, "Answers", _QuizNumber, ".txt");
+
+            FileHandler fileHander = new FileHandler();
+            string[] quizAnswers = fileHander.ReadAllLines(path);
+            int completedQuestions= 0;
+
+            for (int count = 0; count < quizAnswers.Length; count++)
+            {
+                if (Int32.Parse(quizAnswers[count]) != 0)
+                {
+                    completedQuestions = completedQuestions + 1;
+                }
+            }
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            accessDatabase.WriteToJoinQuiz(_QuizName, _QuizNumber, currentQuestion, maxQuestions, idValue, completedQuestions);
+
+            _QuestonsAnswered = completedQuestions.ToString();
+            _maxQuestions = maxQuestions.ToString();
+
+            return string.Concat("Questions Answered: ", completedQuestions,"/", _maxQuestions);
+        }
+
+        public bool AllQuestionsAnswered()
+        {
+            JoinTotalAnsweredQuestions();
+            if (string.IsNullOrEmpty(_QuestonsAnswered))
+            {
+                _QuestonsAnswered = GetCurrentJoinQuestionQuestonsAnswered();
+            }
+            if (string.IsNullOrEmpty(_maxQuestions))
+            {
+                _maxQuestions = GetCurrentJoinQuestionMaxQuestion();
+            }
+            int questonsAnswered = Int32.Parse(_QuestonsAnswered);
+            int maxQuestions = Int32.Parse(_maxQuestions);
+
+            if (questonsAnswered == maxQuestions)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+
+        public string GetJoinQuizResults()
+        {
+            List<string> quizInfo = new List<string>();
+            AccessDatabase accessDatabase = new AccessDatabase();
+            quizInfo = accessDatabase.ReadCurrentJoinQuizInfo();
+
+            string maxQuestions = quizInfo[5];
+            string quizNumber = quizInfo[1];
+            string path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\";
+            path = string.Concat(path, "Answers", quizNumber, ".txt");
+
+            FileHandler fileHandler = new FileHandler();
+            string[] answers = fileHandler.ReadAllLines(path);
+
+            List<string> correctAnswers = accessDatabase.GetJoinQuizTableInfo(quizNumber, 1);
+
+            int gotRight = 0;
+
+            for (int count = 0; count < correctAnswers.Count; count++)
+            {
+                if (correctAnswers[count] == answers[count])
+                {
+                    gotRight++;
+                }
+            }
+
+            return string.Concat(gotRight.ToString(), " out of ", maxQuestions);
+        }
     }
 }

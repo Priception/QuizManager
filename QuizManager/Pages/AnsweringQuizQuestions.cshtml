@@ -1,0 +1,314 @@
+﻿@page
+@model QuizManager.Pages.IndexModel
+@{
+    <style>
+        .CommentBox{
+            width:65%;
+            height:80%;
+            border:5px solid @Model.GetColours(0);
+            position: absolute;
+            top: 52%;
+            right: 55%;
+            -ms-transform: translateY(-50%) translateX(50%);
+            transform: translateY(-50%) translateX(50%);
+            margin:0 auto;
+            background-color:@Model.GetColours(1);
+        }
+        .CommentBox2{
+            width:15%;
+            height:80%;
+            border:5px solid @Model.GetColours(0);
+            position: absolute;
+            top: 52%;
+            right: 10%;
+            -ms-transform: translateY(-50%) translateX(50%);
+            transform: translateY(-50%) translateX(50%);
+            margin:0 auto;
+            background-color:@Model.GetColours(1);
+        }
+        .TextBoxQuestion{
+              top: 28%;
+              right: 48%;
+              position: absolute;
+              -ms-transform: translateY(-50%) translateX(50%);
+              transform: translateY(-50%) translateX(50%);
+              font-size: 1.8vw;
+
+              width: 70%;
+        }
+        .TextBox{
+              top: 50%;
+              right: 73%;
+              position: absolute;
+              -ms-transform: translateY(-50%) translateX(50%);
+              transform: translateY(-50%) translateX(50%);
+              font-size: 1.8vw;
+              width: 30%;
+        }
+        .TextBox2{
+              top: 50%;
+              right: 23%;
+              position: absolute;
+              -ms-transform: translateY(-50%) translateX(50%);
+              transform: translateY(-50%) translateX(50%);
+              font-size: 1.8vw;
+              width: 30%;
+        }
+        .TextBox3{
+              top: 70%;
+              right: 73%;
+              position: absolute;
+              -ms-transform: translateY(-50%) translateX(50%);
+              transform: translateY(-50%) translateX(50%);
+              font-size: 1.8vw;
+              width: 30%;
+        }
+        .TextBox4{
+              top: 70%;
+              right: 23%;
+              position: absolute;
+              -ms-transform: translateY(-50%) translateX(50%);
+              transform: translateY(-50%) translateX(50%);
+              font-size: 1.8vw;
+              width: 30%;
+        }
+        .Text{
+            right: 45%;
+            position: absolute;
+            font-size: 2vw;
+        }
+        .Text2{
+            font-size: 1.2vw;
+        }
+
+        .EnterText{
+            top: 38%;
+            right: 61%;
+            position: absolute;
+            -ms-transform: translateY(-50%) translateX(42%);
+            transform: translateY(-50%) translateX(42%);
+        }
+        .JoinButton{
+            top: 85%;
+            right: 20%;
+            position: absolute;
+            background-color:#0a8a06;
+            margin: 0 auto;
+            width: 10%;
+            height: 8%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .JoinButton:hover{
+            background-color:#043b02!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .SaveExitButton{
+            top: 85%;
+            right: 45%;
+            position: absolute;
+            background-color:#0a8a06;
+            margin: 0 auto;
+            width: 15%;
+            height: 8%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .SaveExitButton:hover{
+            background-color:#043b02!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .BackButton{
+            top: 85%;
+            right: 70%;
+            position: absolute;
+            background-color:#52504d;
+            margin: 0 auto;
+            width: 10%;
+            height: 8%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .BackButton:hover{
+            background-color:#363533!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .AddButton{
+            top: 80%;
+            right: 40%;
+            position: absolute;
+            background-color:#7d7c7a;
+            margin: 0 auto;
+            width: 25%;
+            height: 10%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .AddButton:hover{
+            background-color:#52504d!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .DeleteButton{
+            top: 90%;
+            right: 40%;
+            position: absolute;
+            background-color:#ba0606;
+            margin: 0 auto;
+            width: 25%;
+            height: 10%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .DeleteButton:hover{
+            background-color:#690202!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .NextButton{
+            top: 80%;
+            right: 10%;
+            position: absolute;
+            background-color:#7d7c7a;
+            margin: 0 auto;
+            width: 25%;
+            height: 20%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .NextButton:hover{
+            background-color:#52504d!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+        .PrevButton{
+            top: 80%;
+            right: 70%;
+            position: absolute;
+            background-color:#7d7c7a;
+            margin: 0 auto;
+            width: 25%;
+            height: 20%;
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+        .PrevButton:hover{
+            background-color:#52504d!important;
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        .text-under{
+            display:block;
+            font-size: 1.4vw;  
+        }
+        .checkbox{
+            font-size: 2vw;
+        }
+    </style>
+    <body style="background-color:@Model.GetColours(2);">
+            <form class="form-horizontal" method="post">
+                <div class="CommentBox">
+                    <div class="Text">
+                        <b style="text-align:center; font-size:30px; color:black;">@Model.GetCurrentJoinQuizQuestion()</b>
+                    </div>
+                    
+                        <div class="TextBoxQuestion" >
+                            <b style="color:black;" id="QuizAnswer1" name="QuizQuestion" >@Model.GetJoinAnswerQuestion(2)"</b>
+                        </div>
+                    
+
+                    
+                        <div class="TextBox" >
+                            <b style="color:black;" id="QuizAnswer1" name="QuizAnswer1">@Model.GetJoinAnswerQuestion(3)</b>
+                        </div>
+                    
+                    
+                        <div class="TextBox2" >
+                            <b style="color:black;" id="QuizAnswer2" name="QuizAnswer2">@Model.GetJoinAnswerQuestion(4)</b>
+                        </div>
+                    
+                        <div class="TextBox3" >
+                            <b style="color:black;" id="QuizAnswer3" name="QuizAnswer3">@Model.GetJoinAnswerQuestion(5)</b>
+                        </div>
+                    
+                        <div class="TextBox4" >
+                            <b style="color:black;" id="QuizAnswer4" name="QuizAnswer4">@Model.GetJoinAnswerQuestion(6)</b>
+                        </div>
+                    
+                    <div class="Text2">
+                        <b style="color:black; top: 20%; right: 70%; position: absolute;">Question Name:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 42%; right: 80%; position: absolute;">Answer 1:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 42%; right: 30%; position: absolute;">Answer 2:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 62%; right: 80%; position: absolute;">Answer 3:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 62%; right: 30%; position: absolute;">Answer 4:</b>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" id="answer1pick" name="answerpick" value="1" checked="@Model.GetJoinQuizRadioButton(1)" style="top:48.5%; right:90%; position: absolute; width:3%; height:3%;">
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" id="answer2pick" name="answerpick" value="2" checked="@Model.GetJoinQuizRadioButton(2)" style="top:48.5%; right:40%; position: absolute; width:3%; height:3%;">
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" id="answer3pick" name="answerpick" value="3" checked="@Model.GetJoinQuizRadioButton(3)" style="top:68.5%; right:90%; position: absolute; width:3%; height:3%;">
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" id="answer4pick" name="answerpick" value="4" checked="@Model.GetJoinQuizRadioButton(4)" style="top:68.5%; right:40%; position: absolute; width:3%; height:3%;">
+                    </div>
+                    <button type="Create" asp-page-handler="AnswerQuizInfoSave" class="JoinButton text-under">Save</button>
+                    <button type="Create" asp-page-handler="AnswerQuizInfoBack" class="BackButton text-under">Back</button>
+                    <button type="Create" asp-page-handler="AnswerQuizInfoFinish" hidden="@Model.AllQuestionsAnswered()" class="SaveExitButton text-under">Finish</button>
+                </div>
+                <div class="CommentBox2">
+                    <div class="Text2">
+                        <b style="color:black; top: 1%; right: 32.5%; position: absolute;">Questions:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 75%; right: 2%; position: absolute;">@Model.JoinTotalAnsweredQuestions()</b>
+                    </div>
+                    <button type="Create" asp-page-handler="JoinQuizInfoNext" hidden="@Model.JoinQuizShouldShowNextButton()" class="NextButton text-under">Next<br/>></button>
+                    <button type="Create" asp-page-handler="JoinQuizInfoPrev" hidden="@Model.JoinQuizShouldShowPrevButton()" class="PrevButton text-under">Prev<br/>&lt;</button>
+                </div>
+            </form>
+
+    </body>
+}

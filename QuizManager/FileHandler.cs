@@ -61,18 +61,26 @@
 
         }
 
-        public string Readlines(string path, int colour)
+        public string Readlines(string path, int value)
         {
             string[] readText = File.ReadAllLines(path);
 
-            string content = readText[colour];
-
-            //int num = content.IndexOf("=");
-            //if (num >= 0)
-            //{
-            //    content = content.Substring(0, num);
-            //}
+            string content = readText[value];
                 
+            return content;
+        }
+
+        public string ReadSpecificLine(string path, int lineNum)
+        {
+            string content  = File.ReadLines(path).Skip(lineNum).Take(1).First();
+
+            return content;
+        }
+
+        public string[] ReadAllLines(string path)
+        {
+            string[] content = File.ReadAllLines(path);
+
             return content;
         }
 
@@ -84,6 +92,64 @@
         public void CreateFile(string path)
         {
             File.Create(path).Close();
+        }
+
+        public bool DoesFileExist(string path)
+        {
+            return File.Exists(path);
+        }
+
+        public void DeleteFile(string path)
+        {
+            File.Delete(path);
+        }
+
+        public bool WriteToAnsweredQuestionsFile(string quizNumber, int currentQuestion, int answer, int maxQuestion)
+        {
+            try
+            {
+                string path = "";
+                if (quizNumber != null)
+                {
+                    path = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).FullName + "\\QuizManager\\Config\\";
+                    path = string.Concat(path, "Answers", quizNumber, ".txt");
+
+                    if(File.Exists(path))
+                    {
+                        string[] fileArray = ReadAllLines(path);
+                        List<string> fileList = fileArray.ToList();
+
+                        fileList[currentQuestion - 1] = answer.ToString();
+                        fileArray = fileList.ToArray();
+                        Writelines(path, fileArray);
+                    }
+                    else
+                    {
+                        CreateFile(path);
+                        List<string> questions = new List<string>();
+                        for (int i = 0; i < maxQuestion; i++)
+                        {
+                            questions.Add("0");
+                        }
+
+                        string[] createText = questions.ToArray();
+                        Writelines(path, createText);
+                        WriteToAnsweredQuestionsFile(quizNumber, currentQuestion, answer, maxQuestion);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+
+
+
+                return false;
+            }
         }
     }
 }
