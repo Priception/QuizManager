@@ -1,145 +1,153 @@
-﻿    @page 
-    @model IndexModel
-    @{
-    }
-    <h3>@ViewData["confirmation"]</h3>
+﻿@page
+@model IndexModel
+@{
+}
+<h3>@ViewData["confirmation"]</h3>
 
-    <style>
-                            .CommentBox{
-                                width:80%;
-                                height:80%;
-                                border:5px solid @Model.GetColours(0);
-                                position: absolute;
-                                top: 52%;
-                                right: 45%;
-                                -ms-transform: translateY(-50%) translateX(50%);
-                                transform: translateY(-50%) translateX(50%);
-                                margin:0 auto;
-                                background-color:@Model.GetColours(1);
-                                font-size: 1vw;
-                            }
-                            .TextBox{
-                                top: 50%;
-                                right: 75%;
-                                position: absolute;
-                                -ms-transform: translateY(-50%) translateX(50%);
-                                transform: translateY(-50%) translateX(50%);
-                                font-size: 1.8vw;
-                                /*border:3px solid #000000;*/
-                                width: 30%;
-                            }
-                            .TextBox2{
-                                top: 50%;
-                                right: 25%;
-                                position: absolute;
-                                -ms-transform: translateY(-50%) translateX(50%);
-                                transform: translateY(-50%) translateX(50%);
-                                font-size: 1.8vw;
-                                /*border:3px solid #000000;*/
-                                width: 30%;
-                            }
-                            .Text{
-                                right: 45%;
-                                position: absolute;
-                                font-size: 2vw;
-                            }
-                            .Text2{
-                                position: absolute;
-                                font-size: 1.5vw;
-                                top:40%; 
-                                right:79%;
-                            }
-                            .Text3{
-                                position: absolute;
-                                font-size: 1.5vw;
-                                top:40%; 
-                                right:28%;
-                            }
-                            .EnterText{
-                                top: 38%;
-                                right: 61%;
-                                position: absolute;
-                                -ms-transform: translateY(-50%) translateX(42%);
-                                transform: translateY(-50%) translateX(42%);
-                            }
-                            .JoinButton{
-                                top: 75%;
-                                right: 35%;
-                                position: absolute;
-                                background-color:#0a8a06;
-                                margin: 0 auto;
-                                width: 12%;
-                                height: 10%;
-                                font-size: 33px;
-                                line-height: 1.4;
-                                text-align: center;
-                                list-style-type: none;
-                                list-style-position: outside;
-                                text-decoration: none;
-                            }
-                            .JoinButton:hover{
-                                background-color:#043b02!important;
-                                text-decoration: none;
-                                color: #FFFFFF;
-                            }
-                            .BackButton{
-                                top: 75%;
-                                right: 65%;
-                                position: absolute;
-                                background-color:gray;
-                                margin: 0 auto;
-                                width: 12%;
-                                height: 10%;
-                                font-size: 33px;
-                                line-height: 1.4;
-                                text-align: center;
-                                list-style-type: none;
-                                list-style-position: outside;
-                                text-decoration: none;
-                            }
-                            .BackButton:hover{
-                                filter: brightness(60%)!important;
-                                text-decoration: none;
-                            }
+<style>
+	.CommentBox {
+		width: 80%;
+		height: 80%;
+		border: 5px solid @Model.GetColours(0);
+		position: absolute;
+		top: 52%;
+		right: 45%;
+		-ms-transform: translateY(-50%) translateX(50%);
+		transform: translateY(-50%) translateX(50%);
+		margin: 0 auto;
+		background-color: @Model.GetColours(1);
+		font-size: 1vw;
+	}
 
-                            .text-under{
-                                display:block;
-                                color:black;
-                                font-size: 1.8vw;  
-                            }
-    </style>
-    <body style="background-color:@Model.GetColours(2);">
-        <form class="form-horizontal" method="post">
-            <div class="CommentBox">
-                <div class="Text">
-                    <b style="text-align:center; color:black;">Quiz Info</b>
-                </div>
-                <div class="Text2">
-                    <b style="color:black;">Quiz Name:</b>
-                </div>
-                <div class="form-group">
-                    <div class="TextBox" >
-                        <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizNametxtbox" name="QuizName" >
-                    </div>
-                </div>
-                <div class="Text3">
-                    <b style="color:black;">Quiz Subject:</b>
-                </div>
-                <div class="form-group">
-                    <div class="TextBox2">
-                        <input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizTypetxtbox" name="QuizType" >
-                    </div>
-                </div>
-                <button type="Create" asp-page-handler="QuizInfo" class="JoinButton text-under">Create</button>
-                <button class="BackButton">
-                        <b class="text-under" style="color:black;">Back</b>
-                </button>  
-            </div>
-        </form>               
+	.TextBox {
+		top: 50%;
+		right: 75%;
+		position: absolute;
+		-ms-transform: translateY(-50%) translateX(50%);
+		transform: translateY(-50%) translateX(50%);
+		font-size: 1.8vw;
+		/*border:3px solid #000000;*/
+		width: 30%;
+	}
 
-    </body>
+	.TextBox2 {
+		top: 50%;
+		right: 25%;
+		position: absolute;
+		-ms-transform: translateY(-50%) translateX(50%);
+		transform: translateY(-50%) translateX(50%);
+		font-size: 1.8vw;
+		/*border:3px solid #000000;*/
+		width: 30%;
+	}
 
-    @*<form class="form-horizontal" method="post">
+	.Text {
+		right: 45%;
+		position: absolute;
+		font-size: 2vw;
+	}
+
+	.Text2 {
+		position: absolute;
+		font-size: 1.5vw;
+		top: 40%;
+		right: 79%;
+	}
+
+	.Text3 {
+		position: absolute;
+		font-size: 1.5vw;
+		top: 40%;
+		right: 28%;
+	}
+
+	.EnterText {
+		top: 38%;
+		right: 61%;
+		position: absolute;
+		-ms-transform: translateY(-50%) translateX(42%);
+		transform: translateY(-50%) translateX(42%);
+	}
+
+	.JoinButton {
+		top: 75%;
+		right: 35%;
+		position: absolute;
+		background-color: #0a8a06;
+		margin: 0 auto;
+		width: 12%;
+		height: 10%;
+		font-size: 33px;
+		line-height: 1.4;
+		text-align: center;
+		list-style-type: none;
+		list-style-position: outside;
+		text-decoration: none;
+	}
+
+		.JoinButton:hover {
+			background-color: #043b02 !important;
+			text-decoration: none;
+			color: #FFFFFF;
+		}
+
+	.BackButton {
+		top: 75%;
+		right: 65%;
+		position: absolute;
+		background-color: gray;
+		margin: 0 auto;
+		width: 12%;
+		height: 10%;
+		font-size: 33px;
+		line-height: 1.4;
+		text-align: center;
+		list-style-type: none;
+		list-style-position: outside;
+		text-decoration: none;
+	}
+
+		.BackButton:hover {
+			filter: brightness(60%) !important;
+			text-decoration: none;
+		}
+
+	.text-under {
+		display: block;
+		color: black;
+		font-size: 1.8vw;
+	}
+</style>
+<body style="background-color:@Model.GetColours(2);">
+	<form class="form-horizontal" method="post">
+		<div class="CommentBox">
+			<div class="Text">
+				<b style="text-align:center; color:black;">Quiz Info</b>
+			</div>
+			<div class="Text2">
+				<b style="color:black;">Quiz Name:</b>
+			</div>
+			<div class="form-group">
+				<div class="TextBox">
+					<input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizNametxtbox" name="QuizName">
+				</div>
+			</div>
+			<div class="Text3">
+				<b style="color:black;">Quiz Subject:</b>
+			</div>
+			<div class="form-group">
+				<div class="TextBox2">
+					<input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="QuizTypetxtbox" name="QuizType">
+				</div>
+			</div>
+			<button type="Create" asp-page-handler="QuizInfo" class="JoinButton text-under">Create</button>
+			<button type="Create" asp-page-handler="BackToCreate" class="BackButton text-under">Back</button>
+		</div>
+	</form>
+
+</body>
+
+@*<form class="form-horizontal" method="post">
         <div class="form-group">
             <label for="QuizName" class="col-sm-2 control-label">QuizName</label>
             <div class="col-sm-10">

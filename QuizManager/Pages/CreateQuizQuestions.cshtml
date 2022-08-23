@@ -311,6 +311,15 @@
                     <div class="Text2">
                         <b style="color:black; top: 1%; right: 32.5%; position: absolute;">Questions:</b>
                     </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 50%; right: 20%; position: absolute;">Quiz Join Number:</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 55%; right: 40%; position: absolute;">@Model.ShowJoinQuizNumber()</b>
+                    </div>
+                    <div class="Text2">
+                        <b style="color:black; top: 60%; right: 2%; position: absolute;">(Remember This Value)</b>
+                    </div>
                     <button type="Create" asp-page-handler="CreateQuizInfoAdd" class="AddButton text-under">Add</button>
                     <button type="Create" asp-page-handler="CreateQuizInfoDelete" hidden="@Model.CreateQuizShouldShowDeleteButton()" class="DeleteButton text-under">Del</button>
                     <button type="Create" asp-page-handler="CreateQuizInfoNext" hidden="@Model.CreateQuizShouldShowNextButton()" class="NextButton text-under">Next<br/>></button>

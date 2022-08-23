@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using QuizManager.Scripts.DatabaseScripts;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace QuizManager.Pages
 {
@@ -16,13 +18,35 @@ namespace QuizManager.Pages
         string _QuestonsAnswered { get; set; }
 
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            string path = HttpContext.Request.Path;
 
-        }
-        public void OnGetCreateQuizQuestions()
-        {
-
+            if (path != "/")
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> userDetails = accessDatabase.ReadUserInfo();
+                if (userDetails.Count <= 2)
+                {
+                    return new RedirectToPageResult("Index");
+                }
+                if (string.IsNullOrEmpty(userDetails[0]) || string.IsNullOrEmpty(userDetails[1]) || string.IsNullOrEmpty(userDetails[2]))
+                {
+                    return new RedirectToPageResult("Index");
+                }
+            }
+            else
+            {
+                AccessDatabase accessDatabase = new AccessDatabase();
+                List<string> userDetails = accessDatabase.ReadUserInfo();
+                if (!string.IsNullOrEmpty(userDetails[0]) || !string.IsNullOrEmpty(userDetails[1]) || !string.IsNullOrEmpty(userDetails[2]))
+                {
+                    return new RedirectToPageResult("JoinPage");
+                }
+            }
+             
+            path = path.Replace("/", "");
+            return new PageResult();
         }
 
         public string GetColours(int colour)
@@ -137,7 +161,7 @@ namespace QuizManager.Pages
 
         public IActionResult OnPostAnswerQuizInfoBack()
         {
-            return RedirectToPage("Index");
+            return RedirectToPage("JoinPage");
         }
 
         public IActionResult OnPostAnswerQuizInfoFinish()
@@ -436,6 +460,93 @@ namespace QuizManager.Pages
             return RedirectToPage("JoinPageWrongCode"); // Change to error pagge
         }
 
+        public IActionResult OnPostLoginButton()
+        {
+            string firstName = InvalidCharCheck(Request.Form["FirstName"].ToString());
+            string lastName = InvalidCharCheck(Request.Form["LastName"].ToString());
+            string password = InvalidCharCheck(Request.Form["Password"].ToString());
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(password))
+            {
+
+            }
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> teachersInfo = accessDatabase.GetTeachersInfo(firstName);
+            List<string> studentInfo = accessDatabase.GetStudentsInfo(firstName);
+
+            var crypt = new System.Security.Cryptography.SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            string hasedPassword = hash.ToString();
+
+            if (teachersInfo.Count == 0 && studentInfo.Count > 0)
+            {
+                if (studentInfo[2] == hasedPassword)
+                {
+
+                    accessDatabase.WriteToCurrentUser(firstName, lastName, "Student");
+                }
+
+            }
+            else if (teachersInfo.Count > 0 && studentInfo.Count == 0)
+            {
+                if (teachersInfo[2] == hasedPassword)
+                {
+                    accessDatabase.WriteToCurrentUser(firstName, lastName, "Teacher");
+                }
+            }
+            else
+            {
+                accessDatabase.WriteToCurrentUser("", "", "");
+                // Error Page
+            }
+            
+            return RedirectToPage("JoinPage");
+        }
+
+        public IActionResult OnPostLogOut()
+        {
+            AccessDatabase accessDatabase = new AccessDatabase();
+            accessDatabase.WriteToCurrentUser("", "", "");
+
+            return RedirectToPage("Index");
+        }
+
+        public IActionResult OnPostBackToCreate()
+        {
+            return RedirectToPage("CreateQuiz");
+        }
+
+        public IActionResult OnPostLoadExistingQuiz()
+        {
+            return RedirectToPage("LoadCreateQuiz");
+        }
+
+        public IActionResult OnPostEditExistingQuiz()
+        {
+            string quizNumber = InvalidCharCheck(Request.Form["joinNumber"]);
+            int intJoinNumber = Int32.Parse(quizNumber);
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> iDs = accessDatabase.GetJoinQuizTableInfo(intJoinNumber.ToString(), 0);
+            List<string> questions = accessDatabase.GetJoinQuizTableInfo(intJoinNumber.ToString(), 7);
+            List<string> quizInfo = accessDatabase.GetJoinQuizInfo(quizNumber);
+
+            accessDatabase.WriteToCurrentQuiz(quizInfo[1], quizNumber, 1, questions.Count, Int32.Parse(iDs[0]));
+
+            return RedirectToPage("CreateQuizQuestions");
+        }
+
+        public IActionResult OnPostCreateNewQuiz()
+        {
+            return RedirectToPage("CreateQuizInfo");
+        }
+
+        
         public string GetCurrentQuizName()
         {
             if (_QuizName == null)
@@ -1050,6 +1161,49 @@ namespace QuizManager.Pages
             }
 
             return string.Concat(gotRight.ToString(), " out of ", maxQuestions);
+        }
+
+        public string ShowNavigationBar()
+        {
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> userDetails = accessDatabase.ReadUserInfo();
+            if (string.IsNullOrEmpty(userDetails[0]) || string.IsNullOrEmpty(userDetails[1]) || string.IsNullOrEmpty(userDetails[2]))
+            {
+                return "hidden";
+            }
+            if (userDetails[2] != "Teacher")
+            {
+                return "hidden";
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+
+        public bool ShowLogOutButton()
+        {
+            AccessDatabase accessDatabase = new AccessDatabase();
+            List<string> userDetails = accessDatabase.ReadUserInfo();
+            if (string.IsNullOrEmpty(userDetails[0]) || string.IsNullOrEmpty(userDetails[1]) || string.IsNullOrEmpty(userDetails[2]))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string ShowJoinQuizNumber()
+        {
+            if (string.IsNullOrEmpty(_QuizNumber))
+            {
+                _QuizNumber = GetCurrentQuizNumber();
+            }
+
+            return _QuizNumber;
         }
     }
 }

@@ -1,6 +1,8 @@
 using QuizManager;
 using QuizManager.Pages;
 using QuizManager.Scripts.DatabaseScripts;
+using System.Security.Cryptography;
+using System.Text;
 using TestingFramework.Wrapper;
 
 namespace QuizManagerTests
@@ -172,6 +174,29 @@ namespace QuizManagerTests
             bool check2 = accessDatabase.WriteToJoinQuiz(name, number, 1, 1, 1, 1);
             Assert.IsTrue(check2);
             check2 = accessDatabase.WriteToJoinQuiz("", "", 0, 0, 0, 0);
+            Assert.IsTrue(check2);
+        }
+
+        [Test]
+        [Parallelizable]
+        [Category("Backend")]
+        public void PasswordChangeTest()
+        {
+            string tableName= "Students";
+            string firstName = "Jason";
+
+            var crypt = new System.Security.Cryptography.SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes("Metroid"));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            string value = hash.ToString();
+
+
+            AccessDatabase accessDatabase = new AccessDatabase();
+            bool check2 = accessDatabase.AddPasswordToDatabase(tableName, value, firstName);
             Assert.IsTrue(check2);
         }
 

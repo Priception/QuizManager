@@ -116,16 +116,17 @@
                 <b class="text-under" style="color:black;">New</b>
             </div>
         </a>
-        <div class="LoadButton">
-            <b class="text-under" style="color:black;">Load</b>
-        </div>
+        <form class="form-horizontal" method="post">
+            <button type="Create" asp-page-handler="CreateNewQuiz" class="JoinButton text-under">New</button>
+            <button type="Create" asp-page-handler="LoadExistingQuiz" class="LoadButton text-under">Load</button>
+        </form>
     </div>
 
-    <div class="recentQuizBox">
+    @*<div class="recentQuizBox">
         <div>
             <div class="Text2" style="color:black;">Recent</div><br>
         </div>
-    </div>
+    </div>*@
     
 
 </body>

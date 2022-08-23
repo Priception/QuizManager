@@ -1,89 +1,157 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "Home page";
 }
 <style>
-.CommentBox{
-    width:60%;
-    height:40%;
-    border:5px solid @Model.GetColours(0);
-    position: absolute;
-    top: 50%;
-    right: 50%;
-    -ms-transform: translateY(-50%) translateX(50%);
-    transform: translateY(-50%) translateX(50%);
-    margin:0 auto;
-    background-color:@Model.GetColours(1);
-}
-.TextBox{
-    top: 50%;
-    right: 50%;
-    position: absolute;
-    -ms-transform: translateY(-50%) translateX(50%);
-    transform: translateY(-50%) translateX(50%);
-    font-size: 1.8vw;
-    /*border:3px solid #000000;*/
-    width: 50%;
-}
-.Text{
-    right: 50%;
-    position: absolute;
-    font-size: 2vw;
-}
-.Text2{
-    font-size: 1.2vw;
-}
+	.CommentBox{
+		width:40%;
+		height:80%;
+		border:5px solid @Model.GetColours(0);
+		position: absolute;
+		top: 50%;
+		right: 65%;
+		-ms-transform: translateY(-50%) translateX(50%);
+		transform: translateY(-50%) translateX(50%);
+		margin:0 auto;
+		background-color:@Model.GetColours(1);
+	}
+	.TextBoxQuestion{
+				  top: 50%;
+				  right: 53%;
+				  position: absolute;
+				  -ms-transform: translateY(-50%) translateX(50%);
+				  transform: translateY(-50%) translateX(50%);
+				  font-size: 1.8vw;
 
-.EnterText{
-    top: 38%;
-    right: 61%;
+				  width: 70%;
+			}
+	.TextBox{
+				  top: 30%;
+				  right: 73%;
+				  position: absolute;
+				  -ms-transform: translateY(-50%) translateX(50%);
+				  transform: translateY(-50%) translateX(50%);
+				  font-size: 1.8vw;
+				  width: 30%;
+			}
+	.TextBox2{
+				  top: 30%;
+				  right: 23%;
+				  position: absolute;
+				  -ms-transform: translateY(-50%) translateX(50%);
+				  transform: translateY(-50%) translateX(50%);
+				  font-size: 1.8vw;
+				  width: 30%;
+			}
+	.Text{
+		right: 50%;
+		position: absolute;
+		font-size: 2vw;
+	}
+	.Text2{
+		font-size: 1.2vw;
+	}
+
+	.EnterText{
+		top: 38%;
+		right: 61%;
+		position: absolute;
+		-ms-transform: translateY(-50%) translateX(42%);
+		transform: translateY(-50%) translateX(42%);
+	}
+	.JoinButton{
+		top: 65%;
+		right: 48%;
+		position: absolute;
+		background-color:#0a8a06;
+		margin: 0 auto;
+		width: 10%;
+		height: 15%;
+		font-size: 33px;
+		line-height: 1.4;
+		text-align: center;
+		list-style-type: none;
+		list-style-position: outside;
+		text-decoration: none;
+	}
+	.JoinButton:hover{
+		background-color:#043b02!important;
+		text-decoration: none;
+	}
+	.text-under{
+		font-size: 1.8vw;
+	}
+	.LoginButton{
+			top: 85%;
+			right: 65%;
+			position: absolute;
+			background-color:#0a8a06;
+			margin: 0 auto;
+			width: 15%;
+			height: 8%;
+			font-size: 1.8vw;
+			line-height: 1.4;
+			text-align: center;
+			list-style-type: none;
+			list-style-position: outside;
+			text-decoration: none;
+	}
+	.LoginButton:hover{
+			background-color:#043b02!important;
+			text-decoration: none;
+			color: #FFFFFF;
+	}
+	.imagelogo{
+    top: 35%;
+    right: 13%;
     position: absolute;
     -ms-transform: translateY(-50%) translateX(42%);
     transform: translateY(-50%) translateX(42%);
-}
-.JoinButton{
-    top: 65%;
-    right: 48%;
-    position: absolute;
-    background-color:#0a8a06;
-    margin: 0 auto;
-    width: 10%;
-    height: 15%;
-    font-size: 33px;
-    line-height: 1.4;
-    text-align: center;
-    list-style-type: none;
-    list-style-position: outside;
-    text-decoration: none;
-}
-.JoinButton:hover{
-    background-color:#043b02!important;
-    text-decoration: none;
-}
-.text-under{
-    font-size: 1.8vw;  
-}
+    height: 2vw;
+    width: 3vw;
+    font-size: 1vw;
+    }
 </style>
 
+
 <body style="background-color:@Model.GetColours(2);">
-    <form class="form-horizontal" method="post">
-            <div class="CommentBox">
-           
-            <div class="Text">
-                <b style="text-align:center; color:black;">Join</b><br>
-            </div>
-            <div class="EnterText">
-                <div class="Text2" style="color:black;">Please Enter 6 Digit Code:</div>
-            </div>
-            <div class="TextBox">
-                <input style="border-style:solid; border-color:black; border-width:3px;" type="text" id="joinNumber" name="joinNumber" ><br>
-            </div>
-            <button type="Create" class="JoinButton text-under" id="joinButton" name="joinButton" asp-page-handler="JoinQuizButton" >Join</button>
-        </div>
-    </form>
-    
-    
+	<form class="form-horizontal" method="post">
+		<div class="CommentBox">
+			<div class="Text">
+				<b style="text-align:center; color:black;">Login</b><br>
+			</div>
+			<div class="form-group">
+				<div class="TextBox">
+					<input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="FirstName" name="FirstName">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="TextBox2">
+					<input style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="LastName" name="LastName">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="TextBoxQuestion">
+					<input type="password" style="border-style:solid; border-color:black; border-width:3px;" class="form-control" id="Password" name="Password">
+				</div>
+			</div>
+			<div class="Text2">
+				<b style="color:black; top: 22%; right: 70%; position: absolute;">First Name:</b>
+			</div>
+			<div class="Text2">
+				<b style="color:black; top: 22%; right: 20%; position: absolute;">Last Name:</b>
+			</div>
+			<div class="Text2">
+				<b style="color:black; top: 42%; right: 72%; position: absolute;">Password:</b>
+			</div>
+			<button type="Create" asp-page-handler="LoginButton" class="LoginButton text-under">Login</button>
+			@*<div class="imagelogo">
+				<img src="~/images/logo.png" />
+			</div>*@
+		</div>
+	</form>
+
 
 </body>
 

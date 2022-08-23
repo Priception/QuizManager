@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Text;
 
 namespace QuizManager.Scripts.DatabaseScripts
 {
@@ -541,5 +542,155 @@ namespace QuizManager.Scripts.DatabaseScripts
             }
         }
 
+        public List<string> GetTeachersInfo(string value)
+        {
+
+            string strSQL = string.Concat("SELECT * FROM Teachers WHERE FirstName = '", value, "'");
+            List<string> items = new List<string>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(String.Concat(reader["FirstName"].ToString()));      //0
+                            items.Add(String.Concat(reader["LastName"].ToString()));       //1
+                            items.Add(String.Concat(reader["Password"].ToString()));       //2
+                        }
+                    }
+                    connection.Close();
+
+                    return items;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+
+            }
+        }
+        public List<string> GetStudentsInfo(string value)
+        {
+
+            string strSQL = string.Concat("SELECT * FROM Students WHERE FirstName = '", value, "'");
+            List<string> items = new List<string>();
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(String.Concat(reader["FirstName"].ToString()));      //0
+                            items.Add(String.Concat(reader["LastName"].ToString()));       //1
+                            items.Add(String.Concat(reader["Password"].ToString()));       //2
+                        }
+                    }
+                    connection.Close();
+
+                    return items;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+
+            }
+        }
+
+        public bool AddPasswordToDatabase(string tableName, string value, string firstName)
+        {
+            try
+            {
+                string strSQL = string.Concat("UPDATE ", tableName, " SET Password = '", value, "' WHERE FirstName = '", firstName, "'");
+
+                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public bool WriteToCurrentUser(string firstName, string lastName, string type)
+        {
+            string strSQL = "UPDATE CurrentUser";
+            string updateColumns = string.Concat(" SET FirstName = '", firstName, "', LastName = '", lastName, "', Type = '", type, "' WHERE ID = 1");
+            strSQL = string.Concat(strSQL, updateColumns);
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                try
+                {
+                    OleDbCommand command = new OleDbCommand(strSQL, connection);
+                    connection.Open();
+                    OleDbDataReader reader = command.ExecuteReader();
+                    connection.Close();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    connection.Close();
+                    return false;
+                }
+
+            }
+        }
+
+        public List<string> ReadUserInfo()
+        {
+            string strSQL = "SELECT * FROM CurrentUser";
+            List<string> resourceNames = new List<string>();
+            // Create a connection    
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(strSQL, connection);
+                try
+                {
+                    // Open connecton    
+                    connection.Open();
+                    // Execute command    
+                    using (OleDbDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resourceNames.Add(String.Concat(reader["FirstName"].ToString()));
+                            resourceNames.Add(String.Concat(reader["LastName"].ToString()));
+                            resourceNames.Add(String.Concat(reader["Type"].ToString()));
+                        }
+                    }
+                    connection.Close();
+
+
+
+                    return resourceNames;
+                }
+                catch (Exception e)
+                {
+                    connection.Close();
+                    return null;
+                }
+
+            }
+        }
     }
 }

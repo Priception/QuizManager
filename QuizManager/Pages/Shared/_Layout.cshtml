@@ -53,6 +53,26 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+.LogOutButton{
+            top: 1%;
+            right: 1%;
+            position: absolute;
+            background-color:#ba0606;
+            margin: 0 auto;
+            width: 5%;
+            height: 5%;
+            font-size: 1.2vw;
+            line-height: 1;
+            text-align: center;
+            list-style-type: none;
+            list-style-position: outside;
+            text-decoration: none;
+        }
+.LogOutButton:hover{
+            background-color:#690202!important;
+            text-decoration: none;
+            color: #FFFFFF;
+}
 </style>
 <body>    
     <header>
@@ -65,9 +85,12 @@ a {
                 </button>
             </div>
         </nav>
+        <form class="form-horizontal" method="post">
+            <button type="Create" hidden="@Model.ShowLogOutButton()" asp-page-handler="LogOut" class="LogOutButton">Log Out</button>
+        </form>
     </header>
 
-    <div style="position: absolute; top: 0; bottom: 0; ">
+    <div style="position: absolute; top: 0; bottom: 0; visibility: @Model.ShowNavigationBar();">
         <div class="hide" style="height: 5%; font-size: 36px; color:black;">
             <div></div>
         </div>
@@ -76,14 +99,14 @@ a {
                 <div class="text">Create</div>
             </div>
         </a>
-        <a asp-page="/Index">
+        <a asp-page="/JoinPage">
             <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
                 <div class="text">Join</div>
             </div>
         </a>
         <a asp-page="/ManageClass">
             <div class="NavButton" style="height: 20%; font-size: 36px; color:black;">
-                <div class="textdouble">Manage<br>Class</div>
+                <div class="textdouble">Manage<br>  Class</div>
             </div>
         </a>
         <a asp-page="/Settings">
@@ -104,7 +127,7 @@ a {
 
     <footer class="border-top footer text-muted" style="background-color:@Model.GetColours(0)">
         <div class="container">
-            &copy; 2022 - QuizManager - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2022 - QuizManager</a>
         </div>
     </footer>
 
